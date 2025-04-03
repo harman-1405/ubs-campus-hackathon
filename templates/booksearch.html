@@ -35,59 +35,57 @@
       }
 
       .container {
-        max-width: 1200px;
-        margin: 0 auto;
         padding: 20px;
+        max-width: 600px;
+        margin: auto;
+        text-align: center;
       }
-
+      
       .search-container {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        background-color: white;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: var(--shadow);
-        margin-bottom: 30px;
+        margin-bottom: 20px;
       }
-
+      
       .search-bar {
         display: flex;
         gap: 10px;
+        justify-content: center;
       }
-
+      
       .search-input {
         flex: 1;
-        padding: 12px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
+        padding: 10px;
         font-size: 16px;
       }
-
+      
       .search-button {
-        background-color: var(--secondary);
+        padding: 10px 15px;
+        background-color: #007bff;
         color: white;
         border: none;
-        border-radius: 4px;
-        padding: 12px 20px;
         cursor: pointer;
-        transition: background-color 0.3s;
       }
-
+      
       .search-button:hover {
-        background-color: var(--primary);
+        background-color: #0056b3;
       }
-
+      
       .filter-container {
         display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
+        justify-content: center;
+        gap: 15px;
       }
-
+      
       .filter-select {
-        padding: 8px;
-        border: 1px solid #ddd;
+        padding: 10px;
         border-radius: 4px;
+      }
+      
+      #spoken-text-box {
+        margin-top: 20px;
+      }
+      
+      #search-results {
+        margin-top: 20px;
       }
 
       .books-container {
@@ -299,13 +297,18 @@
         font-size: 16px;
       }
     </style>
+  <head>
+    <title>Book4All</title>
+    <style>
+      /* Add your CSS styles here */
+    </style>
   </head>
   <body>
     <header>
       <h1>Book4All</h1>
       <p>Search it, to have it</p>
     </header>
-
+  
     <div class="container">
       <div class="search-container">
         <div class="search-bar">
@@ -316,7 +319,9 @@
             placeholder="Search by title, author, genre..."
           />
           <button id="search-btn" class="search-button">Search</button>
+          <button id="voice-btn" class="search-button">🎙️ Voice Search</button>
         </div>
+        <div id="spoken-text-content"></div>
         <div class="filter-container">
           <select id="genre-filter" class="filter-select">
             <option value="">All Genres</option>
@@ -344,14 +349,14 @@
           </select>
         </div>
       </div>
-
+  
       <div id="results-container">
         <h2 class="section-title">Books on list</h2>
         <div id="books-container" class="books-container">
           <!-- Books will be dynamically inserted here -->
         </div>
       </div>
-
+  
       <div id="no-results" style="display: none" class="no-results">
         <h2>No exact matches found</h2>
         <p>We couldn't find exactly what you're looking for.</p>
@@ -359,7 +364,7 @@
         <button id="notify-btn" class="notify-btn" style="margin-bottom: 20px">
           Notify Me
         </button>
-
+  
         <div class="recommendation-container">
           <h2 class="section-title">You May Go With</h2>
           <div id="recommendations-container" class="books-container">
@@ -368,7 +373,7 @@
         </div>
       </div>
     </div>
-
+  
     <!-- Notification Form Modal -->
     <div id="notify-modal" class="modal">
       <div class="modal-content">
@@ -411,6 +416,7 @@
         </form>
       </div>
     </div>
+  
 
     <script>
       // Sample dataset of books (would be replaced with real data from Kaggle)
@@ -556,191 +562,256 @@
         },
       ];
 
-      // DOM elements
-      const searchInput = document.getElementById("search-input");
-      const searchBtn = document.getElementById("search-btn");
-      const genreFilter = document.getElementById("genre-filter");
-      const ratingFilter = document.getElementById("rating-filter");
-      const yearFilter = document.getElementById("year-filter");
-      const booksContainer = document.getElementById("books-container");
-      const resultsContainer = document.getElementById("results-container");
-      const noResultsContainer = document.getElementById("no-results");
-      const recommendationsContainer = document.getElementById(
-        "recommendations-container"
-      );
-      const notifyBtn = document.getElementById("notify-btn");
-      const notifyModal = document.getElementById("notify-modal");
-      const closeModal = document.getElementById("close-modal");
-      const notifyForm = document.getElementById("notify-form");
-
-      // Initialize the page
-      function init() {
-        displayBooks(books);
-        bindEvents();
-      }
-
-      // Display books in the container
-      function displayBooks(booksToDisplay, container = booksContainer) {
-        container.innerHTML = "";
-
-        booksToDisplay.forEach((book) => {
-          const bookCard = createBookCard(book);
-          container.appendChild(bookCard);
-        });
-      }
-
-      // Create a book card element
-      function createBookCard(book) {
-        const bookCard = document.createElement("div");
-        bookCard.className = "book-card";
-
-        bookCard.innerHTML = `
-        <img src="${book.cover}" alt="${book.title}" class="book-cover">
-        <div class="book-info">
-          <h3 class="book-title">${book.title}</h3>
-          <p class="book-author">by ${book.author}</p>
-          <div class="book-rating">★ ${book.rating.toFixed(1)}</div>
-        </div>
-        <div class="book-details">
-          <h3 class="details-title">${book.title}</h3>
-          <p class="details-author">by ${book.author}</p>
-          <p class="details-info">Genre: ${book.genre}</p>
-          <p class="details-info">Year: ${book.year}</p>
-          <p class="details-info">Rating: ★ ${book.rating.toFixed(1)}</p>
-          <p class="details-description">${book.description}</p>
-          <button class="details-button">Accept</button>
-        </div>
-      `;
-
-        return bookCard;
-      }
-
-      // Filter books based on search and filter criteria
-      function filterBooks() {
-        const searchText = searchInput.value.toLowerCase();
-        const genreValue = genreFilter.value.toLowerCase();
-        const ratingValue = parseFloat(ratingFilter.value) || 0;
-        const yearValue = parseInt(yearFilter.value) || 0;
-
-        // Apply filters
-        const filteredBooks = books.filter((book) => {
-          const matchesSearch =
-            book.title.toLowerCase().includes(searchText) ||
-            book.author.toLowerCase().includes(searchText) ||
-            book.genre.toLowerCase().includes(searchText);
-
-          const matchesGenre = genreValue === "" || book.genre === genreValue;
-          const matchesRating = book.rating >= ratingValue;
-          const matchesYear = yearValue === 0 || book.year >= yearValue;
-
-          return matchesSearch && matchesGenre && matchesRating && matchesYear;
-        });
-
-        // If there are results, show them
-        if (filteredBooks.length > 0) {
-          resultsContainer.style.display = "block";
-          noResultsContainer.style.display = "none";
-          displayBooks(filteredBooks);
+        // Checking if the browser supports Speech Recognition
+        const speechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let recognition;
+        
+        if (speechRecognition) {
+          recognition = new speechRecognition();
+          recognition.continuous = true;
+          recognition.lang = 'en-IN';
+          recognition.interimResults = false;
         } else {
-          // No results, show recommendations instead
-          resultsContainer.style.display = "none";
-          noResultsContainer.style.display = "block";
-
-          // Find similar books for recommendations
-          const recommendations = findSimilarBooks(searchText, genreValue);
-          displayBooks(recommendations, recommendationsContainer);
+          alert("Your browser doesn't support speech recognition.");
         }
-      }
-
-      // Find similar books for recommendations
-      function findSimilarBooks(searchText, genre) {
-        // First try to match by genre if specified
-        let similar = [];
-
-        if (genre) {
-          similar = books.filter((book) => book.genre === genre);
+        
+        const searchInput = document.getElementById("search-input");
+        const searchBtn = document.getElementById("search-btn");
+        const voiceBtn = document.getElementById("voice-btn");
+        const spokenTextContent = document.getElementById("spoken-text-content");
+        
+        
+        let currentSearchQuery = "";
+        
+        // Start listening for speech input
+        const startListening = () => {
+          recognition.start();
+        };
+        
+        // Stop listening for speech input
+        const stopListening = () => {
+          recognition.stop();
+        };
+        
+        // When speech is recognized, set the text input and show spoken text
+        recognition.onresult = (event) => {
+          const transcript = event.results[event.resultIndex][0].transcript;
+          searchInput.value = transcript; // Set the voice-to-text input into the search field
+          spokenTextContent.textContent = `You said: ${transcript}`; // Show the transcript as spoken text
+          currentSearchQuery = transcript; // Store the spoken query
+        };
+        
+        recognition.onerror = (event) => {
+          console.error("Speech recognition error:", event.error);
+        };
+        
+        // Search logic to handle filters
+        const handleSearch = () => {
+          const genre = genreFilter.value;
+          const rating = ratingFilter.value;
+          const year = yearFilter.value;
+        
+          // Displaying search results or no results
+          resultsContainer.innerHTML = `<p>Searching for "${currentSearchQuery}" with filters: ${genre || 'Any Genre'}, ${rating || 'Any Rating'}, ${year || 'Any Year'}</p>`;
+        
+          // For now, simulate no results
+          noResultsContainer.style.display = 'none';
+          resultsContainer.style.display = 'block';
+        };
+        
+        // Button Actions
+        voiceBtn.addEventListener('click', () => {
+          if (recognition && recognition.start) {
+            startListening();
+          }
+        });
+        
+        searchBtn.addEventListener('click', handleSearch);
+        
+        // DOM elements for book display, search, and filtering
+        const booksContainer = document.getElementById("books-container");
+        const resultsContainer = document.getElementById("results-container");
+        const noResultsContainer = document.getElementById("no-results");
+        const recommendationsContainer = document.getElementById("recommendations-container");
+        
+        const genreFilter = document.getElementById("genre-filter");
+        const ratingFilter = document.getElementById("rating-filter");
+        const yearFilter = document.getElementById("year-filter");
+        
+        const notifyBtn = document.getElementById("notify-btn");
+        const notifyModal = document.getElementById("notify-modal");
+        const closeModal = document.getElementById("close-modal");
+        const notifyForm = document.getElementById("notify-form");
+        
+        // Initialize the page
+        function init() {
+          displayBooks(books);
+          bindEvents();
         }
-
-        // If no genre match or no genre specified, try partial matches
-        if (similar.length === 0 && searchText) {
-          const searchTerms = searchText
-            .split(" ")
-            .filter((term) => term.length > 2);
-
-          similar = books.filter((book) => {
-            return searchTerms.some(
-              (term) =>
-                book.title.toLowerCase().includes(term) ||
-                book.author.toLowerCase().includes(term) ||
-                book.description.toLowerCase().includes(term)
-            );
+        
+        // Display books in the container
+        function displayBooks(booksToDisplay, container = booksContainer) {
+          container.innerHTML = "";
+        
+          booksToDisplay.forEach((book) => {
+            const bookCard = createBookCard(book);
+            container.appendChild(bookCard);
           });
         }
-
-        // If still no matches, return some popular books
-        if (similar.length === 0) {
-          similar = books.filter((book) => book.rating >= 4.5).slice(0, 4);
+        
+        // Create a book card element
+        function createBookCard(book) {
+          const bookCard = document.createElement("div");
+          bookCard.className = "book-card";
+        
+          bookCard.innerHTML = `
+          <img src="${book.cover}" alt="${book.title}" class="book-cover">
+          <div class="book-info">
+            <h3 class="book-title">${book.title}</h3>
+            <p class="book-author">by ${book.author}</p>
+            <div class="book-rating">★ ${book.rating.toFixed(1)}</div>
+          </div>
+          <div class="book-details">
+            <h3 class="details-title">${book.title}</h3>
+            <p class="details-author">by ${book.author}</p>
+            <p class="details-info">Genre: ${book.genre}</p>
+            <p class="details-info">Year: ${book.year}</p>
+            <p class="details-info">Rating: ★ ${book.rating.toFixed(1)}</p>
+            <p class="details-description">${book.description}</p>
+            <button class="details-button">Accept</button>
+          </div>
+        `;
+        
+          return bookCard;
         }
-
-        // Limit to 4 recommendations
-        return similar.slice(0, 4);
-      }
-
-      // Bind event listeners
-      function bindEvents() {
-        // Search button click
-        searchBtn.addEventListener("click", filterBooks);
-
-        // Search input enter key
-        searchInput.addEventListener("keyup", function (event) {
-          if (event.key === "Enter") {
-            filterBooks();
+        
+        // Filter books based on search and filter criteria
+        function filterBooks() {
+          const searchText = searchInput.value.toLowerCase();
+          const genreValue = genreFilter.value.toLowerCase();
+          const ratingValue = parseFloat(ratingFilter.value) || 0;
+          const yearValue = parseInt(yearFilter.value) || 0;
+        
+          // Apply filters
+          const filteredBooks = books.filter((book) => {
+            const matchesSearch =
+              book.title.toLowerCase().includes(searchText) ||
+              book.author.toLowerCase().includes(searchText) ||
+              book.genre.toLowerCase().includes(searchText);
+        
+            const matchesGenre = genreValue === "" || book.genre === genreValue;
+            const matchesRating = book.rating >= ratingValue;
+            const matchesYear = yearValue === 0 || book.year >= yearValue;
+        
+            return matchesSearch && matchesGenre && matchesRating && matchesYear;
+          });
+        
+          // If there are results, show them
+          if (filteredBooks.length > 0) {
+            resultsContainer.style.display = "block";
+            noResultsContainer.style.display = "none";
+            displayBooks(filteredBooks);
+          } else {
+            // No results, show recommendations instead
+            resultsContainer.style.display = "none";
+            noResultsContainer.style.display = "block";
+        
+            // Find similar books for recommendations
+            const recommendations = findSimilarBooks(searchText, genreValue);
+            displayBooks(recommendations, recommendationsContainer);
           }
-        });
-
-        // Filter changes
-        genreFilter.addEventListener("change", filterBooks);
-        ratingFilter.addEventListener("change", filterBooks);
-        yearFilter.addEventListener("change", filterBooks);
-
-        // Notify button click
-        notifyBtn.addEventListener("click", function () {
-          notifyModal.style.display = "block";
-          document.getElementById("book-title").value = searchInput.value;
-        });
-
-        // Close modal
-        closeModal.addEventListener("click", function () {
-          notifyModal.style.display = "none";
-        });
-
-        // Close modal when clicking outside
-        window.addEventListener("click", function (event) {
-          if (event.target === notifyModal) {
+        }
+        
+        // Find similar books for recommendations
+        function findSimilarBooks(searchText, genre) {
+          // First try to match by genre if specified
+          let similar = [];
+        
+          if (genre) {
+            similar = books.filter((book) => book.genre === genre);
+          }
+        
+          // If no genre match or no genre specified, try partial matches
+          if (similar.length === 0 && searchText) {
+            const searchTerms = searchText
+              .split(" ")
+              .filter((term) => term.length > 2);
+        
+            similar = books.filter((book) => {
+              return searchTerms.some(
+                (term) =>
+                  book.title.toLowerCase().includes(term) ||
+                  book.author.toLowerCase().includes(term) ||
+                  book.description.toLowerCase().includes(term)
+              );
+            });
+          }
+        
+          // If still no matches, return some popular books
+          if (similar.length === 0) {
+            similar = books.filter((book) => book.rating >= 4.5).slice(0, 4);
+          }
+        
+          // Limit to 4 recommendations
+          return similar.slice(0, 4);
+        }
+        
+        // Bind event listeners
+        function bindEvents() {
+          // Search button click
+          searchBtn.addEventListener("click", filterBooks);
+        
+          // Search input enter key
+          searchInput.addEventListener("keyup", function (event) {
+            if (event.key === "Enter") {
+              filterBooks();
+            }
+          });
+        
+          // Filter changes
+          genreFilter.addEventListener("change", filterBooks);
+          ratingFilter.addEventListener("change", filterBooks);
+          yearFilter.addEventListener("change", filterBooks);
+        
+          // Notify button click
+          notifyBtn.addEventListener("click", function () {
+            notifyModal.style.display = "block";
+            document.getElementById("book-title").value = searchInput.value;
+          });
+        
+          // Close modal
+          closeModal.addEventListener("click", function () {
             notifyModal.style.display = "none";
-          }
-        });
-
-        // Form submission
-        notifyForm.addEventListener("submit", function (event) {
-          event.preventDefault();
-
-          const name = document.getElementById("name").value;
-          const email = document.getElementById("email").value;
-          const title = document.getElementById("book-title").value;
-
-          // In a real application, you would send this data to your server
-          alert(
-            `Thank you, ${name}! We'll notify you at ${email} when "${title}" becomes available.`
-          );
-
-          notifyModal.style.display = "none";
-          notifyForm.reset();
-        });
-      }
-
-      // Initialize the application
-      init();
-    </script>
-  </body>
-</html>
+          });
+        
+          // Close modal when clicking outside
+          window.addEventListener("click", function (event) {
+            if (event.target === notifyModal) {
+              notifyModal.style.display = "none";
+            }
+          });
+        
+          // Form submission
+          notifyForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+        
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const title = document.getElementById("book-title").value;
+        
+            // In a real application, you would send this data to your server
+            alert(
+              `Thank you, ${name}! We'll notify you at ${email} when "${title}" becomes available.`
+            );
+        
+            notifyModal.style.display = "none";
+            notifyForm.reset();
+          });
+        }
+        
+        // Initialize the application
+        init();
+        
+     </script>
+      </body>
+   </html>
