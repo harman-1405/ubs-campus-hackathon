@@ -172,16 +172,8 @@
       <div class="nav-links">
         <a href="/">Home</a>
         <a href="/donate">Donate Books</a>
-        <a href="#">Request Books</a>
+        <a href="/booksearch">Request Books</a>
         <a href="/dashboard">Dashboard</a>
-        {% if session.get('user') %}
-        <span style="color: #8a56e8; font-weight: 600"
-          >Hi, {{ session['user'] }}</span
-        >
-        <a href="#" class="sign-in-btn">Logout</a>
-        {% else %}
-        <a href="#" class="sign-in-btn">Login</a>
-        {% endif %}
       </div>
     </nav>
 

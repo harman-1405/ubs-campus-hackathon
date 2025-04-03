@@ -164,6 +164,9 @@ def donate_combined():
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
+@app.route('/booksearch')
+def booksearch():
+    return render_template('booksearch.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
