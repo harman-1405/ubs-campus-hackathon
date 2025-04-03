@@ -247,9 +247,33 @@
             margin: 10px 0;
             font-size: 14px;
         }
+        .nav-links a {
+        margin-left: 20px;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+      }
+      .nav-links a.sign-in-btn {
+        background-color: #8a56e8;
+        color: #fff;
+        padding: 6px 14px;
+        border-radius: 5px;
+      }
     </style>
 </head>
 <body>
+    <nav class="navbar">
+        <div class="logo">
+          <i class="fas fa-book-open"></i>
+          BooKs4All
+        </div>
+        <div class="nav-links">
+          <a href="/">Home</a>
+          <a href="/donate">Donate Books</a>
+          <a href="/booksearch">Request Books</a>
+          <a href="/dashboard">Dashboard</a>
+        </div>
+    </nav>
     <div class="dashboard-container">
         <div class="welcome">👋 Welcome, {{ user }}!</div>
 
@@ -366,6 +390,7 @@
             </table>
         </div>
     </div>
+    
 
     <!-- Review Modal -->
     <!-- Review Modal -->
