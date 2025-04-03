@@ -297,126 +297,125 @@
         font-size: 16px;
       }
     </style>
-  <head>
-    <title>Book4All</title>
-    <style>
-      /* Add your CSS styles here */
-    </style>
-  </head>
-  <body>
-    <header>
-      <h1>Book4All</h1>
-      <p>Search it, to have it</p>
-    </header>
-  
-    <div class="container">
-      <div class="search-container">
-        <div class="search-bar">
-          <input
-            type="text"
-            id="search-input"
-            class="search-input"
-            placeholder="Search by title, author, genre..."
-          />
-          <button id="search-btn" class="search-button">Search</button>
-          <button id="voice-btn" class="search-button">🎙️ Voice Search</button>
-        </div>
-        <div id="spoken-text-content"></div>
-        <div class="filter-container">
-          <select id="genre-filter" class="filter-select">
-            <option value="">All Genres</option>
-            <option value="fiction">Fiction</option>
-            <option value="non-fiction">Non-Fiction</option>
-            <option value="fantasy">Fantasy</option>
-            <option value="sci-fi">Science Fiction</option>
-            <option value="mystery">Mystery</option>
-            <option value="thriller">Thriller</option>
-            <option value="romance">Romance</option>
-            <option value="history">History</option>
-          </select>
-          <select id="rating-filter" class="filter-select">
-            <option value="">Any Rating</option>
-            <option value="5">5 Stars</option>
-            <option value="4">4+ Stars</option>
-            <option value="3">3+ Stars</option>
-          </select>
-          <select id="year-filter" class="filter-select">
-            <option value="">Any Year</option>
-            <option value="2020">2020+</option>
-            <option value="2010">2010+</option>
-            <option value="2000">2000+</option>
-            <option value="1990">1990+</option>
-          </select>
-        </div>
-      </div>
-  
-      <div id="results-container">
-        <h2 class="section-title">Books on list</h2>
-        <div id="books-container" class="books-container">
-          <!-- Books will be dynamically inserted here -->
-        </div>
-      </div>
-  
-      <div id="no-results" style="display: none" class="no-results">
-        <h2>No exact matches found</h2>
-        <p>We couldn't find exactly what you're looking for.</p>
-        <p>Interested in being notified when it becomes available?</p>
-        <button id="notify-btn" class="notify-btn" style="margin-bottom: 20px">
-          Notify Me
-        </button>
-  
-        <div class="recommendation-container">
-          <h2 class="section-title">You May Go With</h2>
-          <div id="recommendations-container" class="books-container">
-            <!-- Recommendations will be dynamically inserted here -->
+    <head>
+      <title>Book4All</title>
+      <style>
+        /* Add your CSS styles here */
+      </style>
+    </head>
+    <body>
+      <header>
+        <h1>Book4All</h1>
+        <p>Search it, to have it</p>
+      </header>
+    
+      <div class="container">
+        <div class="search-container">
+          <div class="search-bar">
+            <input
+              type="text"
+              id="search-input"
+              class="search-input"
+              placeholder="Search by title, author, genre..."
+            />
+            <button id="search-btn" class="search-button">Search</button>
+            <button id="voice-btn" class="search-button">🎙️ Voice Search</button>
+          </div>
+          <div id="spoken-text-content"></div>
+          <div class="filter-container">
+            <select id="genre-filter" class="filter-select">
+              <option value="">All Genres</option>
+              <option value="fiction">Fiction</option>
+              <option value="non-fiction">Non-Fiction</option>
+              <option value="fantasy">Fantasy</option>
+              <option value="sci-fi">Science Fiction</option>
+              <option value="mystery">Mystery</option>
+              <option value="thriller">Thriller</option>
+              <option value="romance">Romance</option>
+              <option value="history">History</option>
+            </select>
+            <select id="rating-filter" class="filter-select">
+              <option value="">Any Rating</option>
+              <option value="5">5 Stars</option>
+              <option value="4">4+ Stars</option>
+              <option value="3">3+ Stars</option>
+            </select>
+            <select id="year-filter" class="filter-select">
+              <option value="">Any Year</option>
+              <option value="2020">2020+</option>
+              <option value="2010">2010+</option>
+              <option value="2000">2000+</option>
+              <option value="1990">1990+</option>
+            </select>
           </div>
         </div>
+    
+        <div id="results-container">
+          <h2 class="section-title">Books on list</h2>
+          <div id="books-container" class="books-container">
+            <!-- Books will be dynamically inserted here -->
+          </div>
+        </div>
+    
+        <div id="no-results" style="display: none" class="no-results">
+          <h2>No exact matches found</h2>
+          <p>We couldn't find exactly what you're looking for.</p>
+          <p>Interested in being notified when it becomes available?</p>
+          <button id="notify-btn" class="notify-btn" style="margin-bottom: 20px">
+            Notify Me
+          </button>
+    
+          <div class="recommendation-container">
+            <h2 class="section-title">You May Go With</h2>
+            <div id="recommendations-container" class="books-container">
+              <!-- Recommendations will be dynamically inserted here -->
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  
-    <!-- Notification Form Modal -->
-    <div id="notify-modal" class="modal">
-      <div class="modal-content">
-        <span class="close-btn" id="close-modal">&times;</span>
-        <h2>Request Book Notification</h2>
-        <p>
-          Fill in the details below, and we'll notify you when the book becomes
-          available.
-        </p>
-        <form id="notify-form">
-          <div class="form-group">
-            <label class="form-label" for="name">Your Name</label>
-            <input type="text" id="name" class="form-input" required />
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="email">Email Address</label>
-            <input type="email" id="email" class="form-input" required />
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="book-title">Book Title</label>
-            <input type="text" id="book-title" class="form-input" required />
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="book-author"
-              >Author (if known)</label
-            >
-            <input type="text" id="book-author" class="form-input" />
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="book-details"
-              >Additional Details</label
-            >
-            <textarea
-              id="book-details"
-              class="form-textarea"
-              placeholder="Provide any additional information about the book you're looking for..."
-            ></textarea>
-          </div>
-          <button type="submit" class="submit-btn">Submit Request</button>
-        </form>
+    
+      <!-- Notification Form Modal -->
+      <div id="notify-modal" class="modal">
+        <div class="modal-content">
+          <span class="close-btn" id="close-modal">&times;</span>
+          <h2>Request Book Notification</h2>
+          <p>
+            Fill in the details below, and we'll notify you when the book becomes
+            available.
+          </p>
+          <form id="notify-form">
+            <div class="form-group">
+              <label class="form-label" for="name">Your Name</label>
+              <input type="text" id="name" class="form-input" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="email">Email Address</label>
+              <input type="email" id="email" class="form-input" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="book-title">Book Title</label>
+              <input type="text" id="book-title" class="form-input" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="book-author"
+                >Author (if known)</label
+              >
+              <input type="text" id="book-author" class="form-input" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="book-details"
+                >Additional Details</label
+              >
+              <textarea
+                id="book-details"
+                class="form-textarea"
+                placeholder="Provide any additional information about the book you're looking for..."
+              ></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Submit Request</button>
+          </form>
+        </div>
       </div>
-    </div>
-  
 
     <script>
       // Sample dataset of books (would be replaced with real data from Kaggle)
