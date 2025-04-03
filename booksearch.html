@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BookSearch</title>
+    <style>
+      :root {
+        --primary: #1a5276;
+        --secondary: #2e86c1;
+        --accent: #f39c12;
+        --light: #ecf0f1;
+        --dark: #2c3e50;
+        --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #f5f5f5;
+        color: var(--dark);
+      }
+
+      header {
+        background-color: var(--primary);
+        color: white;
+        padding: 20px;
+        text-align: center;
+        box-shadow: var(--shadow);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .search-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        margin-bottom: 30px;
+      }
+
+      .search-bar {
+        display: flex;
+        gap: 10px;
+      }
+
+      .search-input {
+        flex: 1;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+
+      .search-button {
+        background-color: var(--secondary);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 12px 20px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .search-button:hover {
+        background-color: var(--primary);
+      }
+
+      .filter-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .filter-select {
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+
+      .books-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 20px;
+        margin-bottom: 40px;
+      }
+
+      .book-card {
+        position: relative;
+        height: 360px;
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: transform 0.3s, box-shadow 0.3s;
+        cursor: pointer;
+      }
+
+      .book-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .book-cover {
+        height: 240px;
+        width: 100%;
+        object-fit: cover;
+      }
+
+      .book-info {
+        padding: 15px;
+      }
+
+      .book-title {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .book-author {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 5px;
+      }
+
+      .book-rating {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        color: var(--accent);
+      }
+
+      .book-details {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.85);
+        color: white;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        opacity: 0;
+        transition: opacity 0.3s;
+        overflow-y: auto;
+      }
+
+      .book-card:hover .book-details {
+        opacity: 1;
+      }
+
+      .details-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .details-author {
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+
+      .details-info {
+        font-size: 14px;
+        margin-bottom: 8px;
+      }
+
+      .details-description {
+        font-size: 14px;
+        margin: 10px 0;
+      }
+
+      .details-button {
+        background-color: var(--accent);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 8px 15px;
+        cursor: pointer;
+        margin-top: auto;
+        align-self: flex-start;
+      }
+
+      .recommendation-container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+      }
+
+      .section-title {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: var(--primary);
+      }
+
+      .no-results {
+        text-align: center;
+        margin: 40px 0;
+      }
+
+      .notify-btn {
+        background-color: var(--accent);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        cursor: pointer;
+        margin-top: 20px;
+        font-size: 16px;
+      }
+
+      /* Modal styles */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      .modal-content {
+        background-color: white;
+        margin: 15% auto;
+        padding: 30px;
+        border-radius: 8px;
+        max-width: 500px;
+        position: relative;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        cursor: pointer;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+      }
+
+      .modal-content {
+        max-height: 400px; /* Set a fixed height for the modal content */
+        overflow-y: auto; /* Enable vertical scrolling */
+        padding: 20px; /* Optional: Add padding for better spacing */
+        border: 1px solid #ccc; /* Optional: Add a border for clarity */
+        border-radius: 10px; /* Optional: Rounded corners for aesthetics */
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+
+      .form-textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        min-height: 100px;
+      }
+
+      .submit-btn {
+        background-color: var(--secondary);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 12px 20px;
+        cursor: pointer;
+        width: 100%;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Book4All</h1>
+      <p>Search it, to have it</p>
+    </header>
+
+    <div class="container">
+      <div class="search-container">
+        <div class="search-bar">
+          <input
+            type="text"
+            id="search-input"
+            class="search-input"
+            placeholder="Search by title, author, genre..."
+          />
+          <button id="search-btn" class="search-button">Search</button>
+        </div>
+        <div class="filter-container">
+          <select id="genre-filter" class="filter-select">
+            <option value="">All Genres</option>
+            <option value="fiction">Fiction</option>
+            <option value="non-fiction">Non-Fiction</option>
+            <option value="fantasy">Fantasy</option>
+            <option value="sci-fi">Science Fiction</option>
+            <option value="mystery">Mystery</option>
+            <option value="thriller">Thriller</option>
+            <option value="romance">Romance</option>
+            <option value="history">History</option>
+          </select>
+          <select id="rating-filter" class="filter-select">
+            <option value="">Any Rating</option>
+            <option value="5">5 Stars</option>
+            <option value="4">4+ Stars</option>
+            <option value="3">3+ Stars</option>
+          </select>
+          <select id="year-filter" class="filter-select">
+            <option value="">Any Year</option>
+            <option value="2020">2020+</option>
+            <option value="2010">2010+</option>
+            <option value="2000">2000+</option>
+            <option value="1990">1990+</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="results-container">
+        <h2 class="section-title">Books on list</h2>
+        <div id="books-container" class="books-container">
+          <!-- Books will be dynamically inserted here -->
+        </div>
+      </div>
+
+      <div id="no-results" style="display: none" class="no-results">
+        <h2>No exact matches found</h2>
+        <p>We couldn't find exactly what you're looking for.</p>
+        <p>Interested in being notified when it becomes available?</p>
+        <button id="notify-btn" class="notify-btn" style="margin-bottom: 20px">
+          Notify Me
+        </button>
+
+        <div class="recommendation-container">
+          <h2 class="section-title">You May Go With</h2>
+          <div id="recommendations-container" class="books-container">
+            <!-- Recommendations will be dynamically inserted here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notification Form Modal -->
+    <div id="notify-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" id="close-modal">&times;</span>
+        <h2>Request Book Notification</h2>
+        <p>
+          Fill in the details below, and we'll notify you when the book becomes
+          available.
+        </p>
+        <form id="notify-form">
+          <div class="form-group">
+            <label class="form-label" for="name">Your Name</label>
+            <input type="text" id="name" class="form-input" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="email">Email Address</label>
+            <input type="email" id="email" class="form-input" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="book-title">Book Title</label>
+            <input type="text" id="book-title" class="form-input" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="book-author"
+              >Author (if known)</label
+            >
+            <input type="text" id="book-author" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="book-details"
+              >Additional Details</label
+            >
+            <textarea
+              id="book-details"
+              class="form-textarea"
+              placeholder="Provide any additional information about the book you're looking for..."
+            ></textarea>
+          </div>
+          <button type="submit" class="submit-btn">Submit Request</button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      // Sample dataset of books (would be replaced with real data from Kaggle)
+      const books = [
+        {
+          id: 1,
+          title: "To Kill a Mockingbird",
+          author: "Harper Lee",
+          genre: "fiction",
+          year: 1960,
+          rating: 4.7,
+          cover:
+            "https://m.media-amazon.com/images/I/81gepf1eMqL._AC_UF1000,1000_QL80_.jpg",
+          description:
+            "The unforgettable novel of a childhood in a sleepy Southern town and the crisis of conscience that rocked it. A gripping, heart-wrenching, and wholly remarkable tale of coming-of-age in a South poisoned by virulent prejudice.",
+        },
+        {
+          id: 2,
+          title: "1984",
+          author: "George Orwell",
+          genre: "fiction",
+          year: 1949,
+          rating: 4.5,
+          cover: "https://m.media-amazon.com/images/I/71rpa1-kyvL.jpg",
+          description:
+            "Among the seminal texts of the 20th century, '1984' is a rare work that grows more haunting as its futuristic purgatory becomes more real. Set in a dystopian society with an authoritarian government.",
+        },
+        {
+          id: 3,
+          title: "The Great Gatsby",
+          author: "F. Scott Fitzgerald",
+          genre: "fiction",
+          year: 1925,
+          rating: 4.2,
+          cover:
+            "https://m.media-amazon.com/images/I/91GjOmU7z1L._AC_UF1000,1000_QL80_.jpg",
+          description:
+            "The story of the fabulously wealthy Jay Gatsby and his love for the beautiful Daisy Buchanan. A classic of twentieth-century literature.",
+        },
+        {
+          id: 4,
+          title: "Harry Potter and the Sorcerer's Stone",
+          author: "J.K. Rowling",
+          genre: "fantasy",
+          year: 1997,
+          rating: 4.8,
+          cover: "https://m.media-amazon.com/images/I/81q77Q39nEL.jpg",
+          description:
+            "Harry Potter has never even heard of Hogwarts when the letters start dropping on the doormat at number four, Privet Drive. But his life changes forever when a giant of a man with beetle eyes and wild hair delivers a message: Harry Potter is a wizard.",
+        },
+        {
+          id: 5,
+          title: "The Hobbit",
+          author: "J.R.R. Tolkien",
+          genre: "fantasy",
+          year: 1937,
+          rating: 4.6,
+          cover:
+            "https://m.media-amazon.com/images/I/81mCE+uclxL._UF1000,1000_QL80_.jpg",
+          description:
+            "Bilbo Baggins is a hobbit who enjoys a comfortable, unambitious life, rarely traveling any farther than his pantry or cellar. But his contentment is disturbed when the wizard Gandalf and a company of dwarves arrive to take him on an adventure.",
+        },
+        {
+          id: 6,
+          title: "Pride and Prejudice",
+          author: "Jane Austen",
+          genre: "romance",
+          year: 1813,
+          rating: 4.5,
+          cover:
+            "https://m.media-amazon.com/images/I/81mTGi9gs-L._AC_UF1000,1000_QL80_.jpg",
+          description:
+            "The romantic clash between the opinionated Elizabeth and her proud Mr. Darcy is one of the most famous love stories of all time.",
+        },
+        {
+          id: 7,
+          title: "The Hunger Games",
+          author: "Suzanne Collins",
+          genre: "sci-fi",
+          year: 2008,
+          rating: 4.3,
+          cover:
+            "https://m.media-amazon.com/images/I/61I24wOsn8L._AC_UF1000,1000_QL80_.jpg",
+          description:
+            "In the ruins of a place once known as North America lies the nation of Panem, a shining Capitol surrounded by twelve outlying districts.",
+        },
+        {
+          id: 8,
+          title: "Sapiens: A Brief History of Humankind",
+          author: "Yuval Noah Harari",
+          genre: "non-fiction",
+          year: 2011,
+          rating: 4.6,
+          cover: "https://m.media-amazon.com/images/I/713jIoMO3UL.jpg",
+          description:
+            "One hundred thousand years ago, at least six human species inhabited the earth. Today there is just one. Us. Homo sapiens. How did our species succeed in the battle for dominance?",
+        },
+        {
+          id: 9,
+          title: "Gone Girl",
+          author: "Gillian Flynn",
+          genre: "thriller",
+          year: 2012,
+          rating: 4.0,
+          cover: "https://m.media-amazon.com/images/I/71+khXHbe5L.jpg",
+          description:
+            "On a warm summer morning in North Carthage, Missouri, it is Nick and Amy Dunne's fifth wedding anniversary. Where is Nick's beautiful wife? And what lies beneath the surface of their seemingly perfect marriage?",
+        },
+        {
+          id: 10,
+          title: "The Da Vinci Code",
+          author: "Dan Brown",
+          genre: "mystery",
+          year: 2003,
+          rating: 3.8,
+          cover: "https://m.media-amazon.com/images/I/71y4X5150dL.jpg",
+          description:
+            "While in Paris, Harvard symbologist Robert Langdon is awakened by a phone call in the dead of the night. The curator of the Louvre has been murdered.",
+        },
+        {
+          id: 11,
+          title: "A Game of Thrones",
+          author: "George R.R. Martin",
+          genre: "fantasy",
+          year: 1996,
+          rating: 4.7,
+          cover:
+            "https://m.media-amazon.com/images/I/71P+4DslKmL._AC_UF1000,1000_QL80_.jpg",
+          description:
+            "Long ago, in a time forgotten, a preternatural event threw the seasons out of balance. In a land where summers can last decades and winters a lifetime, trouble is brewing.",
+        },
+        {
+          id: 12,
+          title: "The Alchemist",
+          author: "Paulo Coelho",
+          genre: "fiction",
+          year: 1988,
+          rating: 4.4,
+          cover:
+            "https://m.media-amazon.com/images/I/61HAE8zahLL._AC_UF1000,1000_QL80_.jpg",
+          description:
+            "Combining magic, mysticism, wisdom, and wonder into an inspiring tale of self-discovery, The Alchemist has become a modern classic, selling millions of copies around the world.",
+        },
+      ];
+
+      // DOM elements
+      const searchInput = document.getElementById("search-input");
+      const searchBtn = document.getElementById("search-btn");
+      const genreFilter = document.getElementById("genre-filter");
+      const ratingFilter = document.getElementById("rating-filter");
+      const yearFilter = document.getElementById("year-filter");
+      const booksContainer = document.getElementById("books-container");
+      const resultsContainer = document.getElementById("results-container");
+      const noResultsContainer = document.getElementById("no-results");
+      const recommendationsContainer = document.getElementById(
+        "recommendations-container"
+      );
+      const notifyBtn = document.getElementById("notify-btn");
+      const notifyModal = document.getElementById("notify-modal");
+      const closeModal = document.getElementById("close-modal");
+      const notifyForm = document.getElementById("notify-form");
+
+      // Initialize the page
+      function init() {
+        displayBooks(books);
+        bindEvents();
+      }
+
+      // Display books in the container
+      function displayBooks(booksToDisplay, container = booksContainer) {
+        container.innerHTML = "";
+
+        booksToDisplay.forEach((book) => {
+          const bookCard = createBookCard(book);
+          container.appendChild(bookCard);
+        });
+      }
+
+      // Create a book card element
+      function createBookCard(book) {
+        const bookCard = document.createElement("div");
+        bookCard.className = "book-card";
+
+        bookCard.innerHTML = `
+        <img src="${book.cover}" alt="${book.title}" class="book-cover">
+        <div class="book-info">
+          <h3 class="book-title">${book.title}</h3>
+          <p class="book-author">by ${book.author}</p>
+          <div class="book-rating">★ ${book.rating.toFixed(1)}</div>
+        </div>
+        <div class="book-details">
+          <h3 class="details-title">${book.title}</h3>
+          <p class="details-author">by ${book.author}</p>
+          <p class="details-info">Genre: ${book.genre}</p>
+          <p class="details-info">Year: ${book.year}</p>
+          <p class="details-info">Rating: ★ ${book.rating.toFixed(1)}</p>
+          <p class="details-description">${book.description}</p>
+          <button class="details-button">Accept</button>
+        </div>
+      `;
+
+        return bookCard;
+      }
+
+      // Filter books based on search and filter criteria
+      function filterBooks() {
+        const searchText = searchInput.value.toLowerCase();
+        const genreValue = genreFilter.value.toLowerCase();
+        const ratingValue = parseFloat(ratingFilter.value) || 0;
+        const yearValue = parseInt(yearFilter.value) || 0;
+
+        // Apply filters
+        const filteredBooks = books.filter((book) => {
+          const matchesSearch =
+            book.title.toLowerCase().includes(searchText) ||
+            book.author.toLowerCase().includes(searchText) ||
+            book.genre.toLowerCase().includes(searchText);
+
+          const matchesGenre = genreValue === "" || book.genre === genreValue;
+          const matchesRating = book.rating >= ratingValue;
+          const matchesYear = yearValue === 0 || book.year >= yearValue;
+
+          return matchesSearch && matchesGenre && matchesRating && matchesYear;
+        });
+
+        // If there are results, show them
+        if (filteredBooks.length > 0) {
+          resultsContainer.style.display = "block";
+          noResultsContainer.style.display = "none";
+          displayBooks(filteredBooks);
+        } else {
+          // No results, show recommendations instead
+          resultsContainer.style.display = "none";
+          noResultsContainer.style.display = "block";
+
+          // Find similar books for recommendations
+          const recommendations = findSimilarBooks(searchText, genreValue);
+          displayBooks(recommendations, recommendationsContainer);
+        }
+      }
+
+      // Find similar books for recommendations
+      function findSimilarBooks(searchText, genre) {
+        // First try to match by genre if specified
+        let similar = [];
+
+        if (genre) {
+          similar = books.filter((book) => book.genre === genre);
+        }
+
+        // If no genre match or no genre specified, try partial matches
+        if (similar.length === 0 && searchText) {
+          const searchTerms = searchText
+            .split(" ")
+            .filter((term) => term.length > 2);
+
+          similar = books.filter((book) => {
+            return searchTerms.some(
+              (term) =>
+                book.title.toLowerCase().includes(term) ||
+                book.author.toLowerCase().includes(term) ||
+                book.description.toLowerCase().includes(term)
+            );
+          });
+        }
+
+        // If still no matches, return some popular books
+        if (similar.length === 0) {
+          similar = books.filter((book) => book.rating >= 4.5).slice(0, 4);
+        }
+
+        // Limit to 4 recommendations
+        return similar.slice(0, 4);
+      }
+
+      // Bind event listeners
+      function bindEvents() {
+        // Search button click
+        searchBtn.addEventListener("click", filterBooks);
+
+        // Search input enter key
+        searchInput.addEventListener("keyup", function (event) {
+          if (event.key === "Enter") {
+            filterBooks();
+          }
+        });
+
+        // Filter changes
+        genreFilter.addEventListener("change", filterBooks);
+        ratingFilter.addEventListener("change", filterBooks);
+        yearFilter.addEventListener("change", filterBooks);
+
+        // Notify button click
+        notifyBtn.addEventListener("click", function () {
+          notifyModal.style.display = "block";
+          document.getElementById("book-title").value = searchInput.value;
+        });
+
+        // Close modal
+        closeModal.addEventListener("click", function () {
+          notifyModal.style.display = "none";
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener("click", function (event) {
+          if (event.target === notifyModal) {
+            notifyModal.style.display = "none";
+          }
+        });
+
+        // Form submission
+        notifyForm.addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const name = document.getElementById("name").value;
+          const email = document.getElementById("email").value;
+          const title = document.getElementById("book-title").value;
+
+          // In a real application, you would send this data to your server
+          alert(
+            `Thank you, ${name}! We'll notify you at ${email} when "${title}" becomes available.`
+          );
+
+          notifyModal.style.display = "none";
+          notifyForm.reset();
+        });
+      }
+
+      // Initialize the application
+      init();
+    </script>
+  </body>
+</html>
