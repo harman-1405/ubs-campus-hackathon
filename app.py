@@ -9,7 +9,7 @@ from sendgrid.helpers.mail import (
     Mail, Attachment, FileContent, FileName, FileType, Disposition
 )
 from dotenv import load_dotenv
-
+import pytesseract
 load_dotenv()
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
 SENDER_EMAIL = os.getenv("SENDER_EMAIL", "trivedi.abhaya10@gmail.com")
@@ -18,6 +18,8 @@ app = Flask(__name__)
 
 from PIL import Image, ImageDraw, ImageFont
 import os
+app = Flask(__name__)
+app.secret_key = 'your_secret_key'  # Needed for session management
 
 def generate_certificate(name):
     TEMPLATE_PATH = "static/images/certificate_template.png"
@@ -88,7 +90,40 @@ def send_certificate_email(recipient_email, name, cert_path):
         print(f"✅ Email sent to {recipient_email} | Status: {response.status_code}")
     except Exception as e:
         print(f"❌ Error sending email: {str(e)}")
+def extract_fields(image_path):
+    import pytesseract
+    from PIL import Image
 
+    img = Image.open(image_path)
+    raw_text = pytesseract.image_to_string(img)
+
+    title = ""
+    author = ""
+    for line in raw_text.split("\n"):
+        if "by" in line.lower():
+            parts = line.split("by")
+            title = parts[0].strip()
+            author = parts[1].strip() if len(parts) > 1 else ""
+
+    return {
+        "title": title,
+        "author": author,
+        "raw": raw_text
+    }
+def predict_genre(text):
+    text = text.lower()
+    if "math" in text:
+        return "Mathematics"
+    elif "history" in text:
+        return "History"
+    elif "science" in text:
+        return "Science"
+    elif "grammar" in text or "language" in text:
+        return "Language"
+    elif "biology" in text or "chemistry" in text:
+        return "Biology/Chemistry"
+    else:
+        return "General"
 
 @app.route('/')
 def index():
@@ -109,6 +144,26 @@ def form():
 
         return f"🎉 Certificate sent to {email}!"
     return render_template('form.html')
+@app.route('/donate', methods=['GET', 'POST'])
+def donate_combined():
+    data = {}
+    if request.method == 'POST':
+        file = request.files['image']
+        if file:
+            save_dir = "static/images"
+            os.makedirs(save_dir, exist_ok=True)
+            path = os.path.join(save_dir, file.filename)
+            file.save(path)
+
+            data = extract_fields(path)
+            data["genre"] = predict_genre(data.get("raw", ""))
+
+        # Optional: Save other form values here for database entry
+
+    return render_template("donate.html", data=data)
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
