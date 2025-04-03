@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-  <<<<<<< HEAD
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -263,229 +262,749 @@
         </div>
       </div>
     </section>
-
-    <section class="map-section">
-      <h2>📍 Our Network of Donors & Schools</h2>
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!..."
-        loading="lazy"
-        allowfullscreen
-      ></iframe>
-    </section>
   </body>
-  =======
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BooKs4All - Connect School Libraries with Book Donors</title>
-    <link rel="stylesheet" href="static/css/styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
+    <title>BookHero - Donate & Deliver Books</title>
+    <style>
+      /* Global Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #f5f5f5;
+        color: #333;
+        line-height: 1.6;
+        padding-top: 70px; /* Account for fixed header */
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .btn {
+        display: inline-block;
+        background-color: #4d7bf3;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+      }
+
+      .btn:hover {
+        background-color: #3a5bbf;
+      }
+
+      /* Header Styles */
+      header {
+        background-color: #fff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 15px 0;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 100;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: #8a56e8;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+      }
+
+      .nav-links li {
+        margin-left: 25px;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: #8a56e8;
+      }
+
+      /* Map Section */
+      .map-section {
+        margin-bottom: 60px;
+      }
+
+      .map-heading {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .map-heading h2 {
+        font-size: 32px;
+        color: #333;
+        margin-bottom: 15px;
+      }
+
+      .map-heading p {
+        font-size: 18px;
+        color: #666;
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      .map-container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .map {
+        width: 100%;
+        height: 500px;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      /* BookHero Login & Delivery Section */
+      .bookhero-section {
+        background-color: #fff;
+        margin-top: 30px;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .bookhero-title {
+        font-size: 24px;
+        color: #333;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .login-container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .toggle-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 25px;
+      }
+
+      .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+        margin: 0 15px;
+      }
+
+      .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: 0.4s;
+        border-radius: 34px;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+
+      input:checked + .slider {
+        background-color: #8a56e8;
+      }
+
+      input:checked + .slider:before {
+        transform: translateX(26px);
+      }
+
+      .toggle-label {
+        font-size: 16px;
+        color: #666;
+      }
+
+      .login-form {
+        display: none;
+        margin-top: 20px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+
+      .btn-login {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        background-color: #8a56e8;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      /* Delivery Options */
+      .delivery-options {
+        display: none;
+        margin-top: 30px;
+      }
+
+      .range-slider {
+        width: 100%;
+        margin: 20px 0;
+        color: 8a56e8;
+      }
+
+      .range-value {
+        text-align: center;
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
+
+      .location-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .location-card {
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: transform 0.3s;
+      }
+
+      .location-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .location-name {
+        font-weight: bold;
+        font-size: 18px;
+        margin-bottom: 8px;
+      }
+
+      .location-distance {
+        color: #8a56e8;
+      }
+
+      .location-books {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #8a56e8;
+      }
+
+      /* Delivery Confirmation */
+      .delivery-confirmation {
+        display: none;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        margin-top: 30px;
+      }
+
+      .route-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .address-box {
+        flex: 1;
+        padding: 10px;
+      }
+
+      .address-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #8a56e8;
+      }
+
+      .address-text {
+        font-size: 16px;
+      }
+
+      .arrow {
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        color: #8a56e8;
+        font-size: 24px;
+      }
+
+      .google-maps-link {
+        display: block;
+        text-align: center;
+        margin: 20px 0;
+        color: #8a56e8;
+        text-decoration: none;
+      }
+
+      .google-maps-link:hover {
+        text-decoration: underline;
+      }
+
+      .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .btn-accept {
+        background-color: #4caf50;
+      }
+
+      .btn-accept:hover {
+        background-color: #3e8e41;
+      }
+
+      .btn-reject {
+        background-color: #f44336;
+      }
+
+      .btn-reject:hover {
+        background-color: #d32f2f;
+      }
+
+      /* Fullscreen Map */
+      .fullscreen-map {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        z-index: 1000;
+        display: none;
+      }
+
+      .fullscreen-map iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+
+      .close-map {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background-color: #fff;
+        color: #333;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        font-size: 20px;
+        z-index: 1001;
+      }
+    </style>
   </head>
   <body>
-    <!-- Navigation -->
-    <nav class="navbar">
+    <section class="map-section" id="donation-map">
       <div class="container">
-        <div class="logo">
-          <i class="fas fa-book-open"></i>
-          <h1>BooKs4All</h1>
-        </div>
-        <div class="nav-links">
-          <a href="#" class="active">Home</a>
-          <a href="#">Donate Books</a>
-          <a href="#">Search</a>
-          <a href="#">Dashboard</a>
-          <button class="sign-in-btn">Sign In</button>
-        </div>
-      </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-content">
-        <div class="hero-text">
-          <h1>Share the gift of <span>knowledge and learning</span></h1>
+        <div class="map-heading">
+          <h2>📍 Our Network of Donors & Schools</h2>
           <p>
-            Connect donors with schools in need. Help underprivileged students
-            gain access to quality books and educational materials.
+            Find convenient donation points near you and help us spread the joy
+            of reading to everyone in Pune.
           </p>
-
-          <div class="hero-buttons">
-            <a href="#" class="primary-btn">
-              Donate Books
-              <i class="fas fa-arrow-right"></i>
-            </a>
-            <a href="#" class="secondary-btn">Search for Books</a>
-          </div>
         </div>
-        <div class="hero-image">
-          <!-- This div will have the library background image -->
+        <div class="map-container">
+          <div class="map">
+            <iframe
+              id="donation-points-map"
+              src="https://www.google.com/maps/d/embed?mid=17byCAqTTacn0u6PAXHBr8YV5ts2zy6k&ehbc=2E312F&noprof=1"
+              width="100%"
+              height="500"
+              style="border: 0"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- How It Works Section -->
-    <section class="how-it-works">
+    <section class="bookhero-section" id="bookhero-login">
       <div class="container">
-        <h2>How It Works</h2>
+        <h3 class="bookhero-title">Want to become a BookHero?</h3>
 
-        <div class="steps-container">
-          <div class="step-card">
-            <div class="icon-circle">
-              <i class="fas fa-book"></i>
-            </div>
-            <h3>List Books</h3>
-            <p>
-              Donors list books they want to donate with details like condition,
-              category, and quantity.
-            </p>
+        <div class="login-container">
+          <div class="toggle-container">
+            <span class="toggle-label">Be Self-Book Hero</span>
+            <label class="toggle-switch">
+              <input type="checkbox" id="delivery-toggle" />
+              <span class="slider"></span>
+            </label>
+            <span class="toggle-label">I want to deliver books!</span>
           </div>
 
-          <div class="step-card">
-            <div class="icon-circle orange">
-              <i class="fas fa-clipboard-list"></i>
+          <div class="login-form" id="login-form">
+            <div class="form-group">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Username or Email"
+              />
             </div>
-            <h3>Match Needs</h3>
-            <p>
-              Schools request books they need, and our platform matches donors
-              with nearby schools.
+            <div class="form-group">
+              <input
+                type="password"
+                class="form-control"
+                placeholder="Password"
+              />
+            </div>
+            <button class="btn-login" id="login-button">Login</button>
+            <p style="text-align: center; margin-top: 15px">
+              Not registered? <a href="#" style="color: #4d7bf3">Sign up</a>
             </p>
           </div>
+        </div>
 
-          <div class="step-card">
-            <div class="icon-circle blue">
-              <i class="fas fa-check"></i>
+        <div class="delivery-options" id="delivery-options">
+          <h4 style="margin-bottom: 15px">
+            Select your preferred delivery distance:
+          </h4>
+          <div class="range-value" id="range-value">Maximum distance: 5 km</div>
+          <input
+            type="range"
+            min="1"
+            max="15"
+            value="5"
+            class="range-slider"
+            id="distance-slider"
+          />
+
+          <h4 style="margin: 25px 0 15px">Nearby locations needing books:</h4>
+          <div class="location-grid" id="location-grid">
+            <!-- Location cards will be dynamically inserted here -->
+          </div>
+        </div>
+
+        <div class="delivery-confirmation" id="delivery-confirmation">
+          <h4 style="margin-bottom: 20px">Delivery Route:</h4>
+          <div class="route-info">
+            <div class="address-box">
+              <div class="address-title">PICKUP FROM:</div>
+              <div class="address-text" id="pickup-address">
+                BookHero Central Hub, FC Road, Pune
+              </div>
             </div>
-            <h3>Track Delivery</h3>
-            <p>
-              Track your donation journey from pick-up to delivery, with
-              verification at each step.
-            </p>
+            <div class="arrow">→</div>
+            <div class="address-box">
+              <div class="address-title">DELIVER TO:</div>
+              <div class="address-text" id="delivery-address">
+                Aundh Public Library, Aundh, Pune
+              </div>
+            </div>
+          </div>
+
+          <a
+            href="#"
+            class="google-maps-link"
+            id="google-maps-link"
+            target="_blank"
+          >
+            View route on Google Maps
+          </a>
+
+          <div class="fullscreen-map" id="fullscreen-map">
+            <div class="close-map" id="close-map">✕</div>
+            <iframe
+              id="fullscreen-route-map"
+              src="https://www.google.com/maps/d/embed?mid=17byCAqTTacn0u6PAXHBr8YV5ts2zy6k&ehbc=2E312F&noprof=1"
+              allowfullscreen="true"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+
+          <div class="action-buttons">
+            <button class="btn btn-reject" id="reject-delivery">Reject</button>
+            <button class="btn btn-accept" id="accept-delivery">
+              Accept Delivery
+            </button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Available Books Section -->
-    <section class="available-books">
-      <div class="container">
-        <div class="section-header">
-          <h2>Available Books</h2>
-          <div class="search-bar">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search books..." />
-          </div>
-        </div>
+    <div class="fullscreen-map" id="fullscreen-map">
+      <div class="close-map" id="close-map">✕</div>
+      <iframe
+        id="fullscreen-route-map"
+        src="https://www.google.com/maps/d/embed?mid=17byCAqTTacn0u6PAXHBr8YV5ts2zy6k&ehbc=2E312F&noprof=1"
+        allowfullscreen="true"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
 
-        <div class="books-container">
-          <!-- Book Card 1 -->
-          <div class="book-card">
-            <div class="book-image">
-              <i class="fas fa-book"></i>
-            </div>
-            <div class="book-details">
-              <div class="book-header">
-                <h3>Introduction to...</h3>
-                <span class="condition good">Good</span>
-              </div>
-              <p class="author">John Smith</p>
-              <div class="tags">
-                <span class="tag">Mathematics</span>
-                <span class="tag">Grade: 6-8</span>
-                <span class="tag">English</span>
-              </div>
-              <div class="publisher-location">
-                <span><i class="fas fa-building"></i> ABC Publishers</span>
-                <span><i class="fas fa-map-marker-alt"></i> Mumbai</span>
-              </div>
-              <p class="quantity">Quantity: 3</p>
-              <button class="request-btn">Request Book</button>
-            </div>
-          </div>
+    <script>
+      // Sample data for locations
+      const locationData = [
+        {
+          id: 1,
+          name: "Aundh Public Library",
+          address: "Near D-Mart, Aundh, Pune 411007",
+          distance: 3.2,
+          books: 15,
+          coordinates: "18.5599,73.8079",
+        },
+        {
+          id: 2,
+          name: "Kothrud Reading Center",
+          address: "DP Road, Kothrud, Pune 411038",
+          distance: 4.5,
+          books: 8,
+          coordinates: "18.5089,73.8120",
+        },
+        {
+          id: 3,
+          name: "Viman Nagar Book Club",
+          address: "Phoenix Mall Road, Viman Nagar, Pune 411014",
+          distance: 7.8,
+          books: 22,
+          coordinates: "18.5679,73.9143",
+        },
+        {
+          id: 4,
+          name: "Baner Knowledge Hub",
+          address: "Baner Road, Pune 411045",
+          distance: 5.1,
+          books: 12,
+          coordinates: "18.5590,73.7868",
+        },
+        {
+          id: 5,
+          name: "Koregaon Park Reading Room",
+          address: "Lane 7, Koregaon Park, Pune 411001",
+          distance: 6.3,
+          books: 18,
+          coordinates: "18.5362,73.8920",
+        },
+        {
+          id: 6,
+          name: "Camp Area Book Exchange",
+          address: "MG Road, Camp, Pune 411001",
+          distance: 2.8,
+          books: 9,
+          coordinates: "18.5130,73.8780",
+        },
+      ];
 
-          <!-- Book Card 2 -->
-          <div class="book-card">
-            <div class="book-image">
-              <i class="fas fa-book"></i>
-            </div>
-            <div class="book-details">
-              <div class="book-header">
-                <h3>Basic Science for...</h3>
-                <span class="condition new">New</span>
-              </div>
-              <p class="author">Sarah Johnson</p>
-              <div class="tags">
-                <span class="tag">Science</span>
-                <span class="tag">Grade: 3-5</span>
-                <span class="tag">Hindi</span>
-              </div>
-              <div class="publisher-location">
-                <span><i class="fas fa-building"></i> XYZ Book Store</span>
-                <span><i class="fas fa-map-marker-alt"></i> Delhi</span>
-              </div>
-              <p class="quantity">Quantity: 5</p>
-              <button class="request-btn">Request Book</button>
-            </div>
-          </div>
+      // Central hub coordinates (pickup location)
+      const centralHubCoordinates = "18.5203,73.8567"; // FC Road, Pune
 
-          <!-- Book Card 3 -->
-          <div class="book-card">
-            <div class="book-image">
-              <i class="fas fa-book"></i>
-            </div>
-            <div class="book-details">
-              <div class="book-header">
-                <h3>History of India</h3>
-                <span class="condition fair">Fair</span>
-              </div>
-              <p class="author">Rajesh Kumar</p>
-              <div class="tags">
-                <span class="tag">History</span>
-                <span class="tag">Grade: 9-10</span>
-                <span class="tag">English</span>
-              </div>
-              <div class="publisher-location">
-                <span><i class="fas fa-building"></i> National Library</span>
-                <span><i class="fas fa-map-marker-alt"></i> Bangalore</span>
-              </div>
-              <p class="quantity">Quantity: 2</p>
-              <button class="request-btn">Request Book</button>
-            </div>
-          </div>
+      // DOM Elements
+      const deliveryToggle = document.getElementById("delivery-toggle");
+      const loginForm = document.getElementById("login-form");
+      const loginButton = document.getElementById("login-button");
+      const deliveryOptions = document.getElementById("delivery-options");
+      const distanceSlider = document.getElementById("distance-slider");
+      const rangeValue = document.getElementById("range-value");
+      const locationGrid = document.getElementById("location-grid");
+      const deliveryConfirmation = document.getElementById(
+        "delivery-confirmation"
+      );
+      const pickupAddress = document.getElementById("pickup-address");
+      const deliveryAddress = document.getElementById("delivery-address");
+      const googleMapsLink = document.getElementById("google-maps-link");
+      const acceptDelivery = document.getElementById("accept-delivery");
+      const rejectDelivery = document.getElementById("reject-delivery");
+      const fullscreenMap = document.getElementById("fullscreen-map");
+      const closeMap = document.getElementById("close-map");
+      const fullscreenRouteMap = document.getElementById(
+        "fullscreen-route-map"
+      );
 
-          <!-- Book Card 4 -->
-          <div class="book-card">
-            <div class="book-image">
-              <i class="fas fa-book"></i>
-            </div>
-            <div class="book-details">
-              <div class="book-header">
-                <h3>English Grammar</h3>
-                <span class="condition used">Used</span>
-              </div>
-              <p class="author">Elizabeth Brown</p>
-              <div class="tags">
-                <span class="tag">Language</span>
-                <span class="tag">Grade: 4-6</span>
-                <span class="tag">English</span>
-              </div>
-              <div class="publisher-location">
-                <span><i class="fas fa-building"></i> City Book House</span>
-                <span><i class="fas fa-map-marker-alt"></i> Chennai</span>
-              </div>
-              <p class="quantity">Quantity: 8</p>
-              <button class="request-btn">Request Book</button>
-            </div>
-          </div>
-        </div>
+      // Event Listeners
+      deliveryToggle.addEventListener("change", function () {
+        if (this.checked) {
+          loginForm.style.display = "block";
+        } else {
+          loginForm.style.display = "none";
+          deliveryOptions.style.display = "none";
+          deliveryConfirmation.style.display = "none";
+        }
+      });
 
-        <button class="view-all-btn">View All Available Books</button>
-      </div>
-    </section>
+      loginButton.addEventListener("click", function () {
+        // In a real app, you would validate credentials here
+        loginForm.style.display = "none";
+        deliveryOptions.style.display = "block";
+        populateLocationGrid(parseInt(distanceSlider.value));
+      });
 
-    <script src="static/js/script.js"></script>
+      distanceSlider.addEventListener("input", function () {
+        rangeValue.textContent = `Maximum distance: ${this.value} km`;
+        populateLocationGrid(parseInt(this.value));
+      });
+
+      rejectDelivery.addEventListener("click", function () {
+        deliveryConfirmation.style.display = "none";
+        deliveryOptions.style.display = "block";
+      });
+
+      acceptDelivery.addEventListener("click", function () {
+        showFullscreenMap();
+      });
+
+      closeMap.addEventListener("click", function () {
+        fullscreenMap.style.display = "none";
+      });
+
+      // Functions
+      function populateLocationGrid(maxDistance) {
+        // Clear existing locations
+        locationGrid.innerHTML = "";
+
+        // Filter locations based on distance
+        const filteredLocations = locationData.filter(
+          (location) => location.distance <= maxDistance
+        );
+
+        if (filteredLocations.length === 0) {
+          locationGrid.innerHTML =
+            '<p style="grid-column: 1/-1; text-align: center;">No locations found within this distance range.</p>';
+          return;
+        }
+
+        // Add location cards
+        filteredLocations.forEach((location) => {
+          const locationCard = document.createElement("div");
+          locationCard.className = "location-card";
+          locationCard.innerHTML = `
+            <div class="location-name">${location.name}</div>
+            <div class="location-distance">${location.distance} km away</div>
+            <div class="location-books">${location.books} books needed</div>
+          `;
+
+          // Add click event to select this location
+          locationCard.addEventListener("click", function () {
+            selectDeliveryLocation(location);
+          });
+
+          locationGrid.appendChild(locationCard);
+        });
+      }
+
+      function selectDeliveryLocation(location) {
+        // Update delivery confirmation section
+        deliveryOptions.style.display = "none";
+        deliveryConfirmation.style.display = "block";
+
+        // Set addresses
+        pickupAddress.textContent = "BookHero Central Hub, FC Road, Pune";
+        deliveryAddress.textContent = `${location.name}, ${location.address}`;
+
+        // Create Google Maps route link
+        const mapUrl = `https://www.google.com/maps/dir/${encodeURIComponent(
+          centralHubCoordinates
+        )}/${encodeURIComponent(location.coordinates)}`;
+        googleMapsLink.href = mapUrl;
+
+        // Set fullscreen map URL
+        fullscreenRouteMap.src = `https://www.google.com/maps/d/embed?mid=17byCAqTTacn0u6PAXHBr8YV5ts2zy6k&ehbc=2E312F&noprof=1`;
+      }
+
+      function showFullscreenMap() {
+        fullscreenMap.style.display = "block";
+      }
+
+      // Initialize the app with default values
+      function init() {
+        // Reset UI states
+        loginForm.style.display = "none";
+        deliveryOptions.style.display = "none";
+        deliveryConfirmation.style.display = "none";
+        fullscreenMap.style.display = "none";
+
+        // Populate initial location grid (not visible yet)
+        populateLocationGrid(parseInt(distanceSlider.value));
+      }
+
+      document
+        .getElementById("accept-delivery")
+        .addEventListener("click", function () {
+          document.getElementById("fullscreen-map").style.display = "flex";
+        });
+
+      document
+        .getElementById("close-map")
+        .addEventListener("click", function () {
+          document.getElementById("fullscreen-map").style.display = "none";
+        });
+
+      // Start the app
+      init();
+    </script>
   </body>
-  >>>>>>> e70e2b8158b51830f68b68151a118b5d687bd7e7
 </html>
