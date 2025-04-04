@@ -57,7 +57,6 @@
         font-size: 16px;
       }
       
-      
       .search-button {
     padding: 12px 20px;
     background: linear-gradient(135deg, #541671, #733991);
@@ -452,23 +451,22 @@
   border-radius: 5px;
 }
 
-    </style>
-    <head>
-      <nav class="navbar">
-        <div class="logo">
-          <i class="fas fa-book-open"></i>
-          BooKs4All
-        </div>
-        <div class="nav-links">
-          <a href="/">Home</a>
-          <a href="/donate">Donate Books</a>
-          <a href="/booksearch">Request Books</a>
-          <a href="/dashboard">Dashboard</a>
-        </div>
-      </nav>
+      </style>
     </head>
     <body>
-      
+      <nav class="navbar">
+        <div class="logo">
+          <i class="fas fa-book-open"></i> BooKs4All
+        </div>
+        <div class="nav-links">
+          <a href="/" aria-label="Home">Home</a>
+          <a href="/donate" aria-label="Donate Books">Donate Books</a>
+          <a href="/booksearch" aria-label="Request Books">Request Books</a>
+          <a href="/dashboard" aria-label="Dashboard">Dashboard</a>
+        </div>
+      </nav>
+
+      </header>
     
       <div class="container">
         <div class="search-container">
@@ -702,6 +700,8 @@
         description: "NCERT Class 12 Business Studies textbook covering Principles of Management and Entrepreneurship."
     }
 ];
+
+
         // Checking if the browser supports Speech Recognition
         const speechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         let recognition;
@@ -799,19 +799,18 @@
           });
         }
         
-        // Create a book card element
         function createBookCard(book) {
-          const bookCard = document.createElement("div");
-          bookCard.className = "book-card";
-        
-          bookCard.innerHTML = `
-          <img src="${book.cover}" alt="${book.title}" class="book-cover">
-          <div class="book-info">
+    const bookCard = document.createElement("div");
+    bookCard.className = "book-card";
+
+    bookCard.innerHTML = `
+        <img src="${book.cover}" alt="${book.title}" class="book-cover">
+        <div class="book-info">
             <h3 class="book-title">${book.title}</h3>
             <p class="book-author">by ${book.author}</p>
             <div class="book-rating">★ ${book.rating.toFixed(1)}</div>
-          </div>
-          <div class="book-details">
+        </div>
+        <div class="book-details">
             <h3 class="details-title">${book.title}</h3>
             <p class="details-author">by ${book.author}</p>
             <p class="details-info">Genre: ${book.genre}</p>
@@ -819,11 +818,121 @@
             <p class="details-info">Rating: ★ ${book.rating.toFixed(1)}</p>
             <p class="details-description">${book.description}</p>
             <button class="details-button">Accept</button>
-          </div>
-        `;
-        
-          return bookCard;
-        }
+        </div>
+    `;
+
+    // Add event listener for Accept button
+    const acceptButton = bookCard.querySelector(".details-button");
+    acceptButton.addEventListener("click", () => {
+        openConfirmationPopup(book);
+    });
+
+    return bookCard;
+}
+
+// Function to open the first confirmation popup
+function openConfirmationPopup(book) {
+    const popup = document.createElement("div");
+    popup.className = "popup-container";
+
+    popup.innerHTML = `
+        <div class="popup">
+            <h2>Confirm Book Details</h2>
+            <p><strong>${book.title}</strong> by ${book.author}</p>
+            <label>Quantity:</label>
+            <input type="number" min="1" value="1" id="book-quantity">
+            
+            <label>Condition Preferred:</label>
+            <select id="book-condition">
+                <option value="New">New</option>
+                <option value="Like New">Like New</option>
+                <option value="Used">Used</option>
+            </select>
+
+            <button class="confirm-button">Submit</button>
+        </div>
+    `;
+
+    document.body.appendChild(popup);
+
+    // Handle submission
+    popup.querySelector(".confirm-button").addEventListener("click", () => {
+        document.body.removeChild(popup);
+        showSuccessPopup(book);
+    });
+}
+
+// Function to show final success popup
+function showSuccessPopup(book) {
+    const successPopup = document.createElement("div");
+    successPopup.className = "popup-container";
+
+    successPopup.innerHTML = `
+        <div class="popup">
+            <h2>Order Accepted</h2>
+            <p>Your request for <strong>${book.title}</strong> has been successfully placed.</p>
+            <button class="close-popup">OK</button>
+        </div>
+    `;
+
+    document.body.appendChild(successPopup);
+
+    // Close popup on clicking OK
+    successPopup.querySelector(".close-popup").addEventListener("click", () => {
+        document.body.removeChild(successPopup);
+    });
+}
+
+function openConfirmationPopup(book) {
+    const popup = document.createElement("div");
+    popup.className = "popup-container";
+
+    popup.innerHTML = `
+        <div class="popup">
+            <h2>Confirm Book Details</h2>
+            <p><strong>${book.title}</strong> by ${book.author}</p>
+            <label>Quantity:</label>
+            <input type="number" min="1" value="1" id="book-quantity">
+            
+            <label>Condition Preferred:</label>
+            <select id="book-condition">
+                <option value="New">New</option>
+                <option value="Like New">Like New</option>
+                <option value="Used">Used</option>
+            </select>
+
+            <button class="confirm-button">Submit</button>
+        </div>
+    `;
+
+    document.body.appendChild(popup);
+
+    // Handle submission
+    popup.querySelector(".confirm-button").addEventListener("click", () => {
+        document.body.removeChild(popup);
+        showSuccessPopup(book);
+    });
+}
+
+function showSuccessPopup(book) {
+    const successPopup = document.createElement("div");
+    successPopup.className = "popup-container";
+
+    successPopup.innerHTML = `
+        <div class="popup">
+            <h2>Order Accepted</h2>
+            <p>Your request for <strong>${book.title}</strong> has been successfully placed.</p>
+            <button class="close-popup">OK</button>
+        </div>
+    `;
+
+    document.body.appendChild(successPopup);
+
+    // Close popup on clicking OK
+    successPopup.querySelector(".close-popup").addEventListener("click", () => {
+        document.body.removeChild(successPopup);
+    });
+}
         
         // Filter books based on search and filter criteria
         function filterBooks() {
@@ -948,6 +1057,7 @@
             notifyForm.reset();
           });
         }
+        
         
         // Initialize the application
         init();
