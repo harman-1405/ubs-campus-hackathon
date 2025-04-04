@@ -24,36 +24,99 @@
         color: #333;
       }
       .navbar {
-        background: #fff;
-        padding: 15px 40px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-      }
-      .logo {
-        font-size: 1.6rem;
-        font-weight: 600;
-        color: #8a56e8;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .nav-links a {
-        margin-left: 20px;
-        text-decoration: none;
-        color: #333;
-        font-weight: 500;
-      }
-      .nav-links a.sign-in-btn {
         background-color: #8a56e8;
-        color: #fff;
-        padding: 6px 14px;
-        border-radius: 5px;
-      }
+        padding: 10px 20px;
+        position: sticky; /* Make the navbar sticky */
+        top: 0; /* Stick the navbar to the top */
+        width: 100%; /* Ensure navbar takes full width */
+        z-index: 1000; /* Ensure navbar stays on top of other content */
+}
+
+.navbar .logo {
+  color: #fff;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  background-color:  #8a56e8;;
+}
+
+.navbar .logo i {
+  margin-right: 8px;
+}
+
+.navbar .nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.navbar .nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  padding: 8px 15px;
+  transition: background-color 0.3s ease;
+}
+
+.navbar .nav-links a:hover {
+  background-color:  #8a56e8;;
+  border-radius: 5px;
+}
+
+/* Translate Button Styles */
+.translate {
+  display: flex;
+  align-items: center;
+}
+
+.translate-btn {
+  background-color: #f4f4f4;
+  color: #333;
+  font-size: 16px;
+  padding: 5px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.translate-btn:hover {
+  background-color: #ddd;
+}
+
+/* Hamburger Menu Icon */
+.menu-icon {
+  display: none;
+  font-size: 30px;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Media Query for Mobile */
+@media screen and (max-width: 768px) {
+  .navbar .nav-links {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .navbar .nav-links a {
+    width: 100%;
+    text-align: center;
+    padding: 15px 0;
+  }
+
+  .menu-icon {
+    display: block;
+  }
+
+  .navbar.active .nav-links {
+    display: flex;
+  }
+}
 
       .hero {
         padding: 60px 0 30px;
@@ -164,18 +227,26 @@
     </style>
   </head>
   <body>
+    <!-- Navbar with Translate Button -->
     <nav class="navbar">
       <div class="logo">
-        <i class="fas fa-book-open"></i>
-        BooKs4All
+        <i class="fas fa-book-open"></i> BooKs4All
       </div>
       <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="/donate">Donate Books</a>
-        <a href="/booksearch">Request Books</a>
-        <a href="/dashboard">Dashboard</a>
+        <a href="/" aria-label="Home">Home</a>
+        <a href="/donate" aria-label="Donate Books">Donate Books</a>
+        <a href="/booksearch" aria-label="Request Books">Request Books</a>
+        <a href="/dashboard" aria-label="Dashboard">Dashboard</a>
+      </div>
+      <div class="translate">
+        <button class="translate-btn" id="google_translate_button">Translate</button>
       </div>
     </nav>
+
+
+    <!-- Google Translate Script -->
+    <div id="google_translate_element"></div>
+
 
     <section class="hero">
       <h2>📚 Most Loved Books</h2>
@@ -223,37 +294,40 @@
       </div>
     </section>
 
+    <!-- How It Works Section -->
     <section class="how-it-works">
-      <h2>How It Works</h2>
-      <div class="steps-container">
-        <div class="step-card">
-          <div class="icon-circle purple"><i class="fas fa-book"></i></div>
-          <h3>List Books</h3>
-          <p>
-            Donors list books they want to donate with details like condition,
-            category, and quantity.
-          </p>
-        </div>
-        <div class="step-card">
-          <div class="icon-circle orange">
-            <i class="fas fa-clipboard-list"></i>
+      <div class="container">
+          <h2>How It Works</h2>
+          
+          <div class="steps-container">
+              <div class="step-card">
+                  <div class="icon-circle">
+                      <i class="fas fa-book"></i>
+                  </div>
+                  <h3>List Books</h3>
+                  <p>Donors list books they want to donate with details like condition, category, and quantity.</p>
+              </div>
+
+              <div class="step-card">
+                  <div class="icon-circle orange">
+                      <i class="fas fa-clipboard-list"></i>
+                  </div>
+                  <h3>Match Needs</h3>
+                  <p>Schools request books they need, and our platform matches donors with nearby schools.</p>
+              </div>
+
+              <div class="step-card">
+                  <div class="icon-circle blue">
+                      <i class="fas fa-check"></i>
+                  </div>
+                  <h3>Track Delivery</h3>
+                  <p>Track your donation journey from pick-up to delivery, with verification at each step.</p>
+              </div>
           </div>
-          <h3>Match Needs</h3>
-          <p>
-            Schools request books they need, and our platform matches donors
-            with nearby schools.
-          </p>
-        </div>
-        <div class="step-card">
-          <div class="icon-circle blue"><i class="fas fa-check"></i></div>
-          <h3>Track Delivery</h3>
-          <p>
-            Track your donation journey from pick-up to delivery, with
-            verification at each step.
-          </p>
-        </div>
       </div>
-    </section>
+  </section>
+
+    
   </body>
 </html>
 
@@ -655,6 +729,441 @@
         font-size: 20px;
         z-index: 1001;
       }
+      /* Top Donors Section Styles */
+.top-donors {
+    padding: 60px 0;
+    background: #f9f9f9;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.section-header h2 {
+    font-size: 2rem;
+    color: #333;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.section-header h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background-color: #8b5cf6;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 25px;
+    padding: 8px 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 250px;
+}
+
+.search-bar i {
+    color: #777;
+    margin-right: 8px;
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 0.9rem;
+}
+
+.donors-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.donor-card {
+    display: flex;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+}
+
+.donor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.donor-image {
+    width: 80px;
+    background: #8b5cf6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.donor-image i {
+    font-size: 2.5rem;
+}
+
+.donor-details {
+    padding: 15px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.donor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.donor-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.donor-type {
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.donor-type.ngo {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.donor-type.publisher {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.donor-type.individual {
+    background-color: #f39c12;
+    color: white;
+}
+
+.contribution {
+    font-weight: bold;
+    color: #8b5cf6;
+    margin: 8px 0;
+}
+
+.location-info {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.contact-info {
+    margin: 10px 0;
+    font-size: 0.85rem;
+    color: #555;
+}
+
+.contact-info p {
+    margin: 5px 0;
+}
+
+.contact-btn {
+    background-color: #8b5cf6;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: auto;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+.contact-btn:hover {
+    background-color: #8b5cf6;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 10px 0;
+}
+
+.tag {
+    background: #f2f2f2;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    color: #555;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow: auto;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+    animation: modalFade 0.3s ease-in-out;
+}
+
+@keyframes modalFade {
+    from {opacity: 0; transform: translateY(-30px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+.close-modal {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #aaa;
+}
+
+.close-modal:hover {
+    color: #333;
+}
+
+.modal-header {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.donor-info {
+    margin-bottom: 20px;
+}
+
+.donor-info p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.donor-info p span {
+    font-weight: bold;
+    color: #333;
+}
+
+.contact-form .form-group {
+    margin-bottom: 15px;
+}
+
+.contact-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #555;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.contact-form textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+.submit-btn {
+    background-color:#8b5cf6;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #8b5cf6
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .search-bar {
+        margin-top: 15px;
+        width: 100%;
+    }
+    
+    .donors-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .donor-card {
+        flex-direction: column;
+    }
+    
+    .donor-image {
+        width: 100%;
+        height: 80px;
+    }
+    
+    .location-info {
+        flex-direction: column;
+    }
+    
+    .location-info span {
+        margin-bottom: 5px;
+    }
+}
+
+/* Footer Styles */
+.site-footer {
+    background-color: #fff;
+    padding: 50px 0 20px;
+    color: #666;
+    font-size: 14px;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.footer-brand {
+    flex: 0 0 100%;
+    max-width: 350px;
+    margin-bottom: 20px;
+}
+
+.footer-brand .logo {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #7b68ee;
+    margin-bottom: 15px;
+}
+
+.footer-brand .logo i {
+    margin-right: 10px;
+}
+
+.footer-brand p {
+    color: #666;
+    line-height: 1.6;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 60px;
+}
+
+.footer-column h3 {
+    color: #888;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 12px;
+}
+
+.footer-column ul li a {
+    color: #666;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-column ul li a:hover {
+    color: #7b68ee;
+}
+
+.footer-divider {
+    height: 1px;
+    background-color: #eee;
+    margin: 20px 0;
+}
+
+.footer-bottom {
+    text-align: left;
+    font-size: 13px;
+    color: #888;
+}
+
+@media screen and (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+    }
+    
+    .footer-brand {
+        max-width: 100%;
+        margin-bottom: 30px;
+    }
+    
+    .footer-links {
+        width: 100%;
+        gap: 30px;
+    }
+    
+    .footer-column {
+        flex: 0 0 100%;
+        margin-bottom: 20px;
+    }
+}
     </style>
   </head>
   <body>
@@ -799,6 +1308,144 @@
       ></iframe>
     </div>
 
+        
+  
+      <!-- Top Donors Leaderboard Section -->
+  <section class="top-donors">
+      <div class="container">
+          <div class="section-header">
+              <h2>Our Top Donors</h2>
+              <div class="search-bar">
+                  <i class="fas fa-search"></i>
+                  <input type="text" placeholder="Search donors...">
+              </div>
+          </div>
+  
+          <div class="donors-container">
+              <!-- Donor Card 1 -->
+              <div class="donor-card">
+                  <div class="donor-image">
+                      <i class="fas fa-award"></i>
+                  </div>
+                  <div class="donor-details">
+                      <div class="donor-header">
+                          <h3>National Book Trust</h3>
+                          <span class="donor-type ngo">NGO</span>
+                      </div>
+                      <p class="contribution">Donated: 500+ Books</p>
+                      <div class="tags">
+                          <span class="tag">Educational</span>
+                          <span class="tag">Children's Books</span>
+                          <span class="tag">Multilingual</span>
+                      </div>
+                      <div class="location-info">
+                          <span><i class="fas fa-map-marker-alt"></i> New Delhi</span>
+                          <span><i class="fas fa-calendar-alt"></i> Partner since 2022</span>
+                      </div>
+                      <div class="contact-info">
+                          <p><i class="fas fa-envelope"></i> contact@nationalbooktrust.org</p>
+                          <p><i class="fas fa-phone"></i> +91 1122334455</p>
+                      </div>
+                      <button class="contact-btn">Contact Donor</button>
+                  </div>
+              </div>
+  
+              <!-- Donor Card 2 -->
+              <div class="donor-card">
+                  <div class="donor-image">
+                      <i class="fas fa-building"></i>
+                  </div>
+                  <div class="donor-details">
+                      <div class="donor-header">
+                          <h3>XYZ Publishers</h3>
+                          <span class="donor-type publisher">Publishing House</span>
+                      </div>
+                      <p class="contribution">Donated: 350+ Books</p>
+                      <div class="tags">
+                          <span class="tag">Textbooks</span>
+                          <span class="tag">Academic</span>
+                          <span class="tag">STEM</span>
+                      </div>
+                      <div class="location-info">
+                          <span><i class="fas fa-map-marker-alt"></i> Mumbai</span>
+                          <span><i class="fas fa-calendar-alt"></i> Partner since 2023</span>
+                      </div>
+                      <div class="contact-info">
+                          <p><i class="fas fa-envelope"></i> donations@xyzpublishers.com</p>
+                          <p><i class="fas fa-phone"></i> +91 9988776655</p>
+                      </div>
+                      <button class="contact-btn">Contact Donor</button>
+                  </div>
+              </div>
+  
+              <!-- Donor Card 3 -->
+              <div class="donor-card">
+                  <div class="donor-image">
+                      <i class="fas fa-user-tie"></i>
+                  </div>
+                  <div class="donor-details">
+                      <div class="donor-header">
+                          <h3>Dr. Rajesh Sharma</h3>
+                          <span class="donor-type individual">Individual</span>
+                      </div>
+                      <p class="contribution">Donated: 200+ Books</p>
+                      <div class="tags">
+                          <span class="tag">Literature</span>
+                          <span class="tag">Science</span>
+                          <span class="tag">Reference</span>
+                      </div>
+                      <div class="location-info">
+                          <span><i class="fas fa-map-marker-alt"></i> Bangalore</span>
+                          <span><i class="fas fa-calendar-alt"></i> Donor since 2021</span>
+                      </div>
+                      <div class="contact-info">
+                          <p><i class="fas fa-envelope"></i> dr.rajesh.sharma@email.com</p>
+                          <p><i class="fas fa-phone"></i> +91 8877665544</p>
+                      </div>
+                      <button class="contact-btn">Contact Donor</button>
+                  </div>
+              </div>
+              </div>
+          </div>
+      </div>
+  </section>
+  
+      <!-- Footer Section based on screenshot -->
+  <footer class="site-footer">
+      <div class="container">
+          <div class="footer-content">
+              <div class="footer-brand">
+                  <div class="logo">
+                      <i class="fas fa-book"></i> BooKs4All
+                  </div>
+                  <p>Connecting donors with schools in need. Bridging the gap in education through book donations.</p>
+              </div>
+              <div class="footer-links">
+                  <div class="footer-column">
+                      <h3>PLATFORM</h3>
+                      <ul>
+                          <li><a href="#">Donate Books</a></li>
+                          <li><a href="#">Volunteer</a></li>
+                          <li><a href="#">Dashboard</a></li>
+                      </ul>
+                  </div>
+                  <div class="footer-column">
+                      <h3>LEGAL</h3>
+                      <ul>
+                          <li><a href="#">Privacy Policy</a></li>
+                          <li><a href="#">Terms of Service</a></li>
+                          <li><a href="#">Contact Us</a></li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
+          <div class="footer-divider"></div>
+          <div class="footer-bottom">
+              <p>&copy; 2025 BooKs4All. All rights reserved.</p>
+          </div>
+      </div>
+  </footer>
+
     <script>
       // Sample data for locations
       const locationData = [
@@ -852,6 +1499,30 @@
         },
       ];
 
+      function loadGoogleTranslate() {
+        const script = document.createElement("script");
+        script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+        document.body.appendChild(script);
+      }
+
+      // Initialize Google Translate Element
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          {
+            pageLanguage: 'en',
+            includedLanguages: 'en,hi,mr,fr,de,it', // You can add more languages here
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+          },
+          'google_translate_element'
+        );
+      }
+
+      // Event listener for the Translate button
+      document.getElementById('google_translate_button').addEventListener('click', () => {
+        loadGoogleTranslate(); // Load the Google Translate script when the button is clicked
+      });
+
+
       // Central hub coordinates (pickup location)
       const centralHubCoordinates = "18.5203,73.8567"; // FC Road, Pune
 
@@ -887,6 +1558,9 @@
           deliveryConfirmation.style.display = "none";
         }
       });
+
+
+      
 
       loginButton.addEventListener("click", function () {
         // In a real app, you would validate credentials here
