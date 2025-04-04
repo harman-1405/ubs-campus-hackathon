@@ -58,27 +58,61 @@
       }
       
       .search-button {
-        padding: 10px 15px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        cursor: pointer;
-      }
-      
-      .search-button:hover {
-        background-color: #0056b3;
-      }
-      
-      .filter-container {
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-      }
-      
-      .filter-select {
-        padding: 10px;
-        border-radius: 4px;
-      }
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #541671, #733991);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.search-button:hover {
+    background: linear-gradient(135deg, #a35ac3, #b686ce);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+.search-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.filter-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 15px;
+    background: #f8f9fa; /* Light background for contrast */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-select {
+    padding: 12px 15px;
+    font-size: 16px;
+    font-weight: 500;
+    border: 2px solid #8e50b7; /* Subtle blue border */
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.filter-select:hover {
+    border-color: #6f3895;
+    box-shadow: 0 2px 8px rgba(169, 125, 189, 0.2);
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: #480f64;
+    box-shadow: 0 2px 8px rgba(159, 123, 214, 0.4);
+}
+
       
       #spoken-text-box {
         margin-top: 20px;
@@ -286,6 +320,79 @@
         min-height: 100px;
       }
 
+      /* Accept Button */
+.details-button {
+    background: linear-gradient(45deg, #7B1FA2, #9C27B0);
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.details-button:hover {
+    background: linear-gradient(45deg, #6A1B9A, #8E24AA);
+    transform: scale(1.05);
+}
+
+/* Popup container */
+.popup-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+/* Popup box */
+.popup {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 90%;
+}
+
+/* Input and select */
+.popup input,
+.popup select {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Confirm button */
+.confirm-button,
+.close-popup {
+    background: linear-gradient(45deg, #7B1FA2, #9C27B0);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.confirm-button:hover,
+.close-popup:hover {
+    background: linear-gradient(45deg, #6A1B9A, #8E24AA);
+    transform: scale(1.05);
+}
+
+
       .submit-btn {
         background-color: var(--secondary);
         color: white;
@@ -296,17 +403,69 @@
         width: 100%;
         font-size: 16px;
       }
+      
     </style>
     <head>
       <title>Book4All</title>
       <style>
         /* Add your CSS styles here */
+        .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #8a56e8;
+        padding: 10px 20px;
+        position: sticky; /* Make the navbar sticky */
+        top: 0; /* Stick the navbar to the top */
+        width: 100%; /* Ensure navbar takes full width */
+        z-index: 1000; /* Ensure navbar stays on top of other content */
+}
+
+.navbar .logo {
+  color: #fff;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  background-color:  #8a56e8;;
+}
+
+.navbar .logo i {
+  margin-right: 8px;
+}
+
+.navbar .nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.navbar .nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  padding: 8px 15px;
+  transition: background-color 0.3s ease;
+}
+
+.navbar .nav-links a:hover {
+  background-color:  #8a56e8;;
+  border-radius: 5px;
+}
+
       </style>
     </head>
     <body>
-      <header>
-        <h1>Book4All</h1>
-        <p>Search it, to have it</p>
+      <nav class="navbar">
+        <div class="logo">
+          <i class="fas fa-book-open"></i> BooKs4All
+        </div>
+        <div class="nav-links">
+          <a href="/" aria-label="Home">Home</a>
+          <a href="/donate" aria-label="Donate Books">Donate Books</a>
+          <a href="/booksearch" aria-label="Request Books">Request Books</a>
+          <a href="/dashboard" aria-label="Dashboard">Dashboard</a>
+        </div>
+      </nav>
+
       </header>
     
       <div class="container">
@@ -420,146 +579,128 @@
     <script>
       // Sample dataset of books (would be replaced with real data from Kaggle)
       const books = [
-        {
-          id: 1,
-          title: "To Kill a Mockingbird",
-          author: "Harper Lee",
-          genre: "fiction",
-          year: 1960,
-          rating: 4.7,
-          cover:
-            "https://m.media-amazon.com/images/I/81gepf1eMqL._AC_UF1000,1000_QL80_.jpg",
-          description:
-            "The unforgettable novel of a childhood in a sleepy Southern town and the crisis of conscience that rocked it. A gripping, heart-wrenching, and wholly remarkable tale of coming-of-age in a South poisoned by virulent prejudice.",
-        },
-        {
-          id: 2,
-          title: "1984",
-          author: "George Orwell",
-          genre: "fiction",
-          year: 1949,
-          rating: 4.5,
-          cover: "https://m.media-amazon.com/images/I/71rpa1-kyvL.jpg",
-          description:
-            "Among the seminal texts of the 20th century, '1984' is a rare work that grows more haunting as its futuristic purgatory becomes more real. Set in a dystopian society with an authoritarian government.",
-        },
-        {
-          id: 3,
-          title: "The Great Gatsby",
-          author: "F. Scott Fitzgerald",
-          genre: "fiction",
-          year: 1925,
-          rating: 4.2,
-          cover:
-            "https://m.media-amazon.com/images/I/91GjOmU7z1L._AC_UF1000,1000_QL80_.jpg",
-          description:
-            "The story of the fabulously wealthy Jay Gatsby and his love for the beautiful Daisy Buchanan. A classic of twentieth-century literature.",
-        },
-        {
-          id: 4,
-          title: "Harry Potter and the Sorcerer's Stone",
-          author: "J.K. Rowling",
-          genre: "fantasy",
-          year: 1997,
-          rating: 4.8,
-          cover: "https://m.media-amazon.com/images/I/81q77Q39nEL.jpg",
-          description:
-            "Harry Potter has never even heard of Hogwarts when the letters start dropping on the doormat at number four, Privet Drive. But his life changes forever when a giant of a man with beetle eyes and wild hair delivers a message: Harry Potter is a wizard.",
-        },
-        {
-          id: 5,
-          title: "The Hobbit",
-          author: "J.R.R. Tolkien",
-          genre: "fantasy",
-          year: 1937,
-          rating: 4.6,
-          cover:
-            "https://m.media-amazon.com/images/I/81mCE+uclxL._UF1000,1000_QL80_.jpg",
-          description:
-            "Bilbo Baggins is a hobbit who enjoys a comfortable, unambitious life, rarely traveling any farther than his pantry or cellar. But his contentment is disturbed when the wizard Gandalf and a company of dwarves arrive to take him on an adventure.",
-        },
-        {
-          id: 6,
-          title: "Pride and Prejudice",
-          author: "Jane Austen",
-          genre: "romance",
-          year: 1813,
-          rating: 4.5,
-          cover:
-            "https://m.media-amazon.com/images/I/81mTGi9gs-L._AC_UF1000,1000_QL80_.jpg",
-          description:
-            "The romantic clash between the opinionated Elizabeth and her proud Mr. Darcy is one of the most famous love stories of all time.",
-        },
-        {
-          id: 7,
-          title: "The Hunger Games",
-          author: "Suzanne Collins",
-          genre: "sci-fi",
-          year: 2008,
-          rating: 4.3,
-          cover:
-            "https://m.media-amazon.com/images/I/61I24wOsn8L._AC_UF1000,1000_QL80_.jpg",
-          description:
-            "In the ruins of a place once known as North America lies the nation of Panem, a shining Capitol surrounded by twelve outlying districts.",
-        },
-        {
-          id: 8,
-          title: "Sapiens: A Brief History of Humankind",
-          author: "Yuval Noah Harari",
-          genre: "non-fiction",
-          year: 2011,
-          rating: 4.6,
-          cover: "https://m.media-amazon.com/images/I/713jIoMO3UL.jpg",
-          description:
-            "One hundred thousand years ago, at least six human species inhabited the earth. Today there is just one. Us. Homo sapiens. How did our species succeed in the battle for dominance?",
-        },
-        {
-          id: 9,
-          title: "Gone Girl",
-          author: "Gillian Flynn",
-          genre: "thriller",
-          year: 2012,
-          rating: 4.0,
-          cover: "https://m.media-amazon.com/images/I/71+khXHbe5L.jpg",
-          description:
-            "On a warm summer morning in North Carthage, Missouri, it is Nick and Amy Dunne's fifth wedding anniversary. Where is Nick's beautiful wife? And what lies beneath the surface of their seemingly perfect marriage?",
-        },
-        {
-          id: 10,
-          title: "The Da Vinci Code",
-          author: "Dan Brown",
-          genre: "mystery",
-          year: 2003,
-          rating: 3.8,
-          cover: "https://m.media-amazon.com/images/I/71y4X5150dL.jpg",
-          description:
-            "While in Paris, Harvard symbologist Robert Langdon is awakened by a phone call in the dead of the night. The curator of the Louvre has been murdered.",
-        },
-        {
-          id: 11,
-          title: "A Game of Thrones",
-          author: "George R.R. Martin",
-          genre: "fantasy",
-          year: 1996,
-          rating: 4.7,
-          cover:
-            "https://m.media-amazon.com/images/I/71P+4DslKmL._AC_UF1000,1000_QL80_.jpg",
-          description:
-            "Long ago, in a time forgotten, a preternatural event threw the seasons out of balance. In a land where summers can last decades and winters a lifetime, trouble is brewing.",
-        },
-        {
-          id: 12,
-          title: "The Alchemist",
-          author: "Paulo Coelho",
-          genre: "fiction",
-          year: 1988,
-          rating: 4.4,
-          cover:
-            "https://m.media-amazon.com/images/I/61HAE8zahLL._AC_UF1000,1000_QL80_.jpg",
-          description:
-            "Combining magic, mysticism, wisdom, and wonder into an inspiring tale of self-discovery, The Alchemist has become a modern classic, selling millions of copies around the world.",
-        },
-      ];
+    {
+        id: 1,
+        title: "Mathematics - Class 10",
+        author: "NCERT",
+        genre: "Education",
+        year: 2023,
+        rating: 4.8,
+        cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNx_MELSivIhp179FQ7QkfJtGJm7Fr_gK5wQ&s",
+        description: "Official NCERT Class 10 Mathematics textbook covering Algebra, Geometry, Trigonometry, and more."
+    },
+    {
+        id: 2,
+        title: "Science - Class 10",
+        author: "NCERT",
+        genre: "Education",
+        year: 2023,
+        rating: 4.7,
+        cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0Po_facTV2Zy_5z0CxhIgZQvg1pA-abctDg&s",
+        description: "NCERT Science textbook for Class 10 covering Physics, Chemistry, and Biology."
+    },
+    {
+        id: 3,
+        title: "English: First Flight - Class 10",
+        author: "NCERT",
+        genre: "Education",
+        year: 2023,
+        rating: 4.6,
+        cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNZPh4UNwPPuQGg0Z20z_fOFtGgnLLb547AA&s",
+        description: "NCERT Class 10 English Literature book 'First Flight' containing prose and poetry from various authors."
+    },
+    {
+        id: 4,
+        title: "History: India and the Contemporary World - II",
+        author: "NCERT",
+        genre: "History",
+        year: 2023,
+        rating: 4.5,
+        cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaoaZSFzxHc2JOK9OIeJeZNNQjNfkOYdExCQ&s",
+        description: "Class 10 NCERT History book covering Indian and global historical events."
+    },
+    {
+        id: 5,
+        title: "Physics - Class 12",
+        author: "NCERT",
+        genre: "Science",
+        year: 2023,
+        rating: 4.8,
+        cover: "https://m.media-amazon.com/images/I/911-2v5Yq8L.jpg",
+        description: "NCERT Class 12 Physics textbook covering Electrostatics, Optics, Magnetism, and more."
+    },
+    {
+        id: 6,
+        title: "Chemistry - Class 12",
+        author: "NCERT",
+        genre: "Science",
+        year: 2023,
+        rating: 4.7,
+        cover: "https://ncert.nic.in/textbook/pdf/lech1cc.jpg",
+        description: "NCERT Class 12 Chemistry textbook covering Organic and Inorganic Chemistry concepts."
+    },
+    {
+        id: 7,
+        title: "Biology - Class 12",
+        author: "NCERT",
+        genre: "Science",
+        year: 2023,
+        rating: 4.7,
+        cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIosAmqstIbA7q6UBPyp-1gkQIW2mMoqNxdA&s",
+        description: "NCERT Class 12 Biology textbook covering Genetics, Ecology, Biotechnology, and more."
+    },
+    {
+        id: 8,
+        title: "Mathematics - Class 12 Part 1",
+        author: "NCERT",
+        genre: "Mathematics",
+        year: 2023,
+        rating: 4.8,
+        cover: "https://m.media-amazon.com/images/I/918O3XZAW9L.jpg",
+        description: "Class 12 NCERT Mathematics textbook covering Calculus, Probability, and Linear Algebra."
+    },
+    {
+        id: 9,
+        title: "Political Science - Class 12",
+        author: "NCERT",
+        genre: "Social Science",
+        year: 2023,
+        rating: 4.5,
+        cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzlGbScZzn04t2ZE2-PHHMljieY9lyH6clZQ&s",
+        description: "NCERT Class 12 Political Science book focusing on contemporary world politics and democracy."
+    },
+    {
+        id: 10,
+        title: "Economics - Class 12",
+        author: "NCERT",
+        genre: "Economics",
+        year: 2023,
+        rating: 4.6,
+        cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5q6Z0nAIxKxpTdn33Qprs59oaU-ecqYuOjg&s",
+        description: "NCERT Class 12 Economics textbook covering macroeconomics and Indian economic development."
+    },
+    {
+        id: 11,
+        title: "Accountancy - Class 12",
+        author: "NCERT",
+        genre: "Commerce",
+        year: 2023,
+        rating: 4.5,
+        cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShfphPiVN-HZRZUGmEW5BWp7WM36xVvF0i1g&s",
+        description: "Class 12 Accountancy textbook covering Financial Accounting, Partnership, and Company Accounts."
+    },
+    {
+        id: 12,
+        title: "Business Studies - Class 12",
+        author: "NCERT",
+        genre: "Commerce",
+        year: 2023,
+        rating: 4.5,
+        cover: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoYI9rAoBD3hwh9Cq_pG2LO4KsdcVeCkGxKQ&s",
+        description: "NCERT Class 12 Business Studies textbook covering Principles of Management and Entrepreneurship."
+    }
+];
+
 
         // Checking if the browser supports Speech Recognition
         const speechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -658,19 +799,18 @@
           });
         }
         
-        // Create a book card element
         function createBookCard(book) {
-          const bookCard = document.createElement("div");
-          bookCard.className = "book-card";
-        
-          bookCard.innerHTML = `
-          <img src="${book.cover}" alt="${book.title}" class="book-cover">
-          <div class="book-info">
+    const bookCard = document.createElement("div");
+    bookCard.className = "book-card";
+
+    bookCard.innerHTML = `
+        <img src="${book.cover}" alt="${book.title}" class="book-cover">
+        <div class="book-info">
             <h3 class="book-title">${book.title}</h3>
             <p class="book-author">by ${book.author}</p>
             <div class="book-rating">★ ${book.rating.toFixed(1)}</div>
-          </div>
-          <div class="book-details">
+        </div>
+        <div class="book-details">
             <h3 class="details-title">${book.title}</h3>
             <p class="details-author">by ${book.author}</p>
             <p class="details-info">Genre: ${book.genre}</p>
@@ -678,11 +818,121 @@
             <p class="details-info">Rating: ★ ${book.rating.toFixed(1)}</p>
             <p class="details-description">${book.description}</p>
             <button class="details-button">Accept</button>
-          </div>
-        `;
-        
-          return bookCard;
-        }
+        </div>
+    `;
+
+    // Add event listener for Accept button
+    const acceptButton = bookCard.querySelector(".details-button");
+    acceptButton.addEventListener("click", () => {
+        openConfirmationPopup(book);
+    });
+
+    return bookCard;
+}
+
+// Function to open the first confirmation popup
+function openConfirmationPopup(book) {
+    const popup = document.createElement("div");
+    popup.className = "popup-container";
+
+    popup.innerHTML = `
+        <div class="popup">
+            <h2>Confirm Book Details</h2>
+            <p><strong>${book.title}</strong> by ${book.author}</p>
+            <label>Quantity:</label>
+            <input type="number" min="1" value="1" id="book-quantity">
+            
+            <label>Condition Preferred:</label>
+            <select id="book-condition">
+                <option value="New">New</option>
+                <option value="Like New">Like New</option>
+                <option value="Used">Used</option>
+            </select>
+
+            <button class="confirm-button">Submit</button>
+        </div>
+    `;
+
+    document.body.appendChild(popup);
+
+    // Handle submission
+    popup.querySelector(".confirm-button").addEventListener("click", () => {
+        document.body.removeChild(popup);
+        showSuccessPopup(book);
+    });
+}
+
+// Function to show final success popup
+function showSuccessPopup(book) {
+    const successPopup = document.createElement("div");
+    successPopup.className = "popup-container";
+
+    successPopup.innerHTML = `
+        <div class="popup">
+            <h2>Order Accepted</h2>
+            <p>Your request for <strong>${book.title}</strong> has been successfully placed.</p>
+            <button class="close-popup">OK</button>
+        </div>
+    `;
+
+    document.body.appendChild(successPopup);
+
+    // Close popup on clicking OK
+    successPopup.querySelector(".close-popup").addEventListener("click", () => {
+        document.body.removeChild(successPopup);
+    });
+}
+
+function openConfirmationPopup(book) {
+    const popup = document.createElement("div");
+    popup.className = "popup-container";
+
+    popup.innerHTML = `
+        <div class="popup">
+            <h2>Confirm Book Details</h2>
+            <p><strong>${book.title}</strong> by ${book.author}</p>
+            <label>Quantity:</label>
+            <input type="number" min="1" value="1" id="book-quantity">
+            
+            <label>Condition Preferred:</label>
+            <select id="book-condition">
+                <option value="New">New</option>
+                <option value="Like New">Like New</option>
+                <option value="Used">Used</option>
+            </select>
+
+            <button class="confirm-button">Submit</button>
+        </div>
+    `;
+
+    document.body.appendChild(popup);
+
+    // Handle submission
+    popup.querySelector(".confirm-button").addEventListener("click", () => {
+        document.body.removeChild(popup);
+        showSuccessPopup(book);
+    });
+}
+
+function showSuccessPopup(book) {
+    const successPopup = document.createElement("div");
+    successPopup.className = "popup-container";
+
+    successPopup.innerHTML = `
+        <div class="popup">
+            <h2>Order Accepted</h2>
+            <p>Your request for <strong>${book.title}</strong> has been successfully placed.</p>
+            <button class="close-popup">OK</button>
+        </div>
+    `;
+
+    document.body.appendChild(successPopup);
+
+    // Close popup on clicking OK
+    successPopup.querySelector(".close-popup").addEventListener("click", () => {
+        document.body.removeChild(successPopup);
+    });
+}
         
         // Filter books based on search and filter criteria
         function filterBooks() {
